@@ -14,6 +14,7 @@ namespace server_side.Context
         }
 
         public DbSet<Models.FinanceTrackerData> FinanceTrackerData {get;set;}
+        public DbSet<Models.FinanceData> FinanceData {get;set;}
         public DbSet<Models.Color> Colors {get;set;}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder){

@@ -1,21 +1,36 @@
+import { TFinanceData, TFinanceTrackerData } from "@/types";
 
 
 
 export async function FetchFinanceData() {
-    // const response = await fetch("")
+    const id = 1;
+    const response = await fetch(`${process.env.API_URL}${process.env.FINANCE_DATA_KEY}${id}`)
+    const data:TFinanceTrackerData = await response.json()
+    let labels:string[] = []
+    let values:number[] = []
+    let backgroundColors:string[] = []
+    let borderColors:string[] = []
 
-    const data = {
-        labels: ['Red', 'Blue', 'Yellow'],
+    data.financeData.map((d)=>(
+      labels.push(d.category),
+      values.push(d.amount),
+      backgroundColors.push(`rgba(${d.color.red},${d.color.green},${d.color.blue},${data.backgroundOpacity})`),
+      borderColors.push(`rgba(${d.color.red},${d.color.green},${d.color.blue},${data.borderOpacity})`)
+    ));
+
+    const data1 = {
+        labels,
         datasets: [
           {
             label: '',
-            data: [12, 19, 3],
-            backgroundColor: ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)'],
-            borderColor: ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)'],
+            data:values,
+            backgroundColor:backgroundColors,
+            borderColor:borderColors,
             borderWidth: 1,
           },
         ],
         
       };
-      return data
+      console.log(backgroundColors)
+      return data1
 }
