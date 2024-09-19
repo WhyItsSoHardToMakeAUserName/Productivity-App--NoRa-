@@ -11,7 +11,7 @@ namespace server_side.Models
         [Key]
         public int Id{get;set;}
         public int FinanceTrackerDataId{get;set;}
-        public int? ColorId{get;set;}
+        public Color? Color {get;set;}
         public string? Category{get;set;}
         public required float Amount{get;set;}
         public string? Currency{get;set;} 
