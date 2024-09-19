@@ -1,4 +1,13 @@
+using Microsoft.EntityFrameworkCore;
+using server_side.Context;
+
 var builder = WebApplication.CreateBuilder(args);
+
+DotNetEnv.Env.Load();
+
+builder.Services.AddDbContext<FinanceTrackerDataContext>(options =>
+options.UseNpgsql(Environment.GetEnvironmentVariable("CONNECTION_STRING"))
+);
 
 // Add services to the container.
 
