@@ -31,6 +31,5 @@ export async function FetchFinanceData() {
         ],
         
       };
-      console.log(backgroundColors)
       return data1
 }
