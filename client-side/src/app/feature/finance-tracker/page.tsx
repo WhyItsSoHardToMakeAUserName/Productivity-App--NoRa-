@@ -1,6 +1,5 @@
 import { FetchFinanceData } from "@/api/FinanceTrackerAPI";
 import FinanceChart from "@/components/FinanceChart";
-import { useSearchParams } from "next/navigation";
 
 export default async function Page(){
   // const [test ,setTest] = useState("")
@@ -11,7 +10,6 @@ export default async function Page(){
   //   .then(data=> setTest(data))
   // },[])
     var data = await FetchFinanceData();
-    const searchParams = useSearchParams();
     return(
         <div className="flex flex-col items-center justify-center w-1/3">
             <div className="h-3/4  w-full  flex justify-center">
