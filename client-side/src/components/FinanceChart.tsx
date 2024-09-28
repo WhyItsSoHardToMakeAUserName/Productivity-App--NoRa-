@@ -1,7 +1,7 @@
 'use client'
 import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
-import RoundButton from "./ui/Button";
+import RoundButton from "./ui/RoundButton";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
