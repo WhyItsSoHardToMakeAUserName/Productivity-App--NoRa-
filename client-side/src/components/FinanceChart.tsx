@@ -1,9 +1,13 @@
 'use client'
 import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
-import RoundButton from "./ui/RoundButton";
+import {RoundLink} from "@/components/ui/RoundLink";
+import Modal from "./Modal";
+import { useSearchParams } from "next/navigation";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
+
+
 
 export default function FinanceChart({data}:any){
 
@@ -21,11 +25,13 @@ export default function FinanceChart({data}:any){
           },
         },
       };
+      const searchParams = useSearchParams();
+      const show = searchParams?.get("show")
     return(
       <div className="flex max-w-full">
         <Doughnut data={data} options={options}/>
-        <RoundButton>+</RoundButton>
-
+        <RoundLink href="/feature/finance-tracker/?show=true">+</RoundLink>
+        {show === "true" && <Modal></Modal>}
       </div>
     )
 }

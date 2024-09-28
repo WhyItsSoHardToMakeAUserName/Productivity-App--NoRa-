@@ -1,9 +1,8 @@
-import RoundButton from "@/components/ui/Button";
-
+import {Button} from "@/components/ui";
 export default function Page(){
     return(
         <div>
-            <RoundButton>+</RoundButton>
+            <Button>+</Button>
         </div>
     );
 }
