@@ -1,6 +1,7 @@
 'use client'
 import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import RoundButton from "./ui/Button";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -21,9 +22,10 @@ export default function FinanceChart({data}:any){
         },
       };
     return(
-        <Doughnut 
-        data={data}
-        options={options}
-    />
+      <div className="flex max-w-full">
+        <Doughnut data={data} options={options}/>
+        <RoundButton>+</RoundButton>
+
+      </div>
     )
 }
