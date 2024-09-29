@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { fredoka } from "@/components/ui";
 
 export const metadata: Metadata = {
   title: "NoRa",
@@ -9,7 +10,7 @@ export const metadata: Metadata = {
 export default function RootLayout({children,}: Readonly<{children: React.ReactNode;}>) {
   return (
     <html lang="en">
-      <body className='max-h-screen overflow-hidden'>
+      <body className={`max-h-screen overflow-hidden ${fredoka.className}`}>
         {children}
       </body>
     </html>
