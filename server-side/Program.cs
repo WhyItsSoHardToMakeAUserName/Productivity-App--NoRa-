@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using server_side.Context;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,7 +12,7 @@ options.UseNpgsql(Environment.GetEnvironmentVariable("CONNECTION_STRING"))
 
 // Add services to the container.
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllers();
 
 
 builder.Services.AddCors(options =>{
@@ -25,7 +26,24 @@ builder.Services.AddCors(options =>{
     });
 });
 
+builder.Services.AddSwaggerGen(c=>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo {Title = "My API" , Version = "v1"});
+});
+builder.Services.AddEndpointsApiExplorer();
+
 var app = builder.Build();
+if(app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+        app.UseSwaggerUI(options => // UseSwaggerUI is called only in Development.
+    {
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+        options.RoutePrefix = string.Empty;
+    });
+
+    app.UseDeveloperExceptionPage();
+}
 
 app.UseCors("AllowSpecificOrigin");
 
@@ -40,8 +58,10 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
-app.UseRouting();
 
+app.UseRouting();
 app.UseAuthorization();
+
+app.MapControllers();
 
 app.Run();

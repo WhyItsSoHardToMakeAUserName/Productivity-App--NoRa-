@@ -11,29 +11,34 @@ using server_side.Models;
 
 namespace server_side.Controllers
 {
-    public class FinanceTrackerController : Controller
+
+    [ApiController]
+    [Route("api/[controller]")]
+    public class FinanceTrackerController : ControllerBase
     {
         private readonly FinanceTrackerDataContext _context;
         public FinanceTrackerController(FinanceTrackerDataContext context)
         {
             _context = context;
         }
-        public string Index()
-        {
-            return "test";
-        }
-        public string Home()
-        {
-            return "hi";
-        }
-        public async Task<ActionResult<FinanceTrackerData>> GetFinanceData(int Id)
-        {
-            var data = await _context.FinanceTrackerData.Include(f => f.FinanceData)
-            .ThenInclude(financeData => financeData.Color)
-            .Where(d => d.UserId == Id).FirstOrDefaultAsync();
 
-            if (data == null) return NotFound();
-            return data;
-        }
+
+    [HttpGet("home")]
+    public string Home()
+    {
+        return "hi";
+    }
+
+
+    [HttpGet("GetFinanceData/{Id:int}")]
+    public async Task<ActionResult<FinanceTrackerData>> GetFinanceData(int Id)
+    {
+        var data = await _context.FinanceTrackerData.Include(f => f.FinanceData)
+        .ThenInclude(financeData => financeData.Color)
+        .Where(d => d.UserId == Id).FirstOrDefaultAsync();
+
+        if (data == null) return NotFound();
+        return data;
+    }
     }
 }
