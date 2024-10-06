@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -16,13 +17,13 @@ namespace server_side.Controllers
     [Route("api/[controller]")]
     public class FinanceTrackerController : ControllerBase
     {
-        private readonly FinanceTrackerDataContext _context;
-        public FinanceTrackerController(FinanceTrackerDataContext context)
+        private readonly ApplicationDbContext _context;
+        public FinanceTrackerController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-
+    [Authorize]
     [HttpGet("home")]
     public string Home()
     {
@@ -33,9 +34,11 @@ namespace server_side.Controllers
     [HttpGet("GetFinanceData/{Id:int}")]
     public async Task<ActionResult<FinanceTrackerData>> GetFinanceData(int Id)
     {
+
         var data = await _context.FinanceTrackerData.Include(f => f.FinanceData)
         .ThenInclude(financeData => financeData.Color)
-        .Where(d => d.UserId == Id).FirstOrDefaultAsync();
+        .Where(d => d.UserId == Id)
+        .FirstOrDefaultAsync();
 
         if (data == null) return NotFound();
         return data;

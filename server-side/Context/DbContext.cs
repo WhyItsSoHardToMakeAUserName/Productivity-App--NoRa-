@@ -1,21 +1,19 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using server_side.Models;
 
 namespace server_side.Context
 {
-    public class FinanceTrackerDataContext : DbContext
+    public class ApplicationDbContext : DbContext
     {
-        public FinanceTrackerDataContext(DbContextOptions<FinanceTrackerDataContext> options)
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         :base(options)
         {
         }
 
-        public DbSet<Models.FinanceTrackerData> FinanceTrackerData {get;set;}
-        public DbSet<Models.FinanceData> FinanceData {get;set;}
-        public DbSet<Models.Color> Colors {get;set;}
+        public required DbSet<FinanceTrackerData> FinanceTrackerData {get;set;}
+        public required DbSet<FinanceData> FinanceData {get;set;}
+        public required DbSet<Color> Colors {get;set;}
+        public required DbSet<User> Users {get;set;}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder){
             modelBuilder.Entity<Models.FinanceTrackerData>()
@@ -25,6 +23,8 @@ namespace server_side.Context
             modelBuilder.Entity<Models.FinanceTrackerData>()
                 .Property(ft => ft.BorderOpacity)
                 .HasDefaultValue(0.8);
+
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

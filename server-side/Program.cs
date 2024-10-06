@@ -1,4 +1,7 @@
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using server_side.Context;
 
@@ -6,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 DotNetEnv.Env.Load();
 
-builder.Services.AddDbContext<FinanceTrackerDataContext>(options =>
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
 options.UseNpgsql(Environment.GetEnvironmentVariable("CONNECTION_STRING"))
 );
 
@@ -14,6 +17,20 @@ options.UseNpgsql(Environment.GetEnvironmentVariable("CONNECTION_STRING"))
 
 builder.Services.AddControllers();
 
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme,
+        options => {
+            builder.Configuration.Bind("JwtSettings",options);
+            options.TokenValidationParameters = new TokenValidationParameters{
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+            };
+        }
+    );
+
+builder.Services.AddAuthorization();
 
 builder.Services.AddCors(options =>{
     options.AddPolicy("AllowSpecificOrigin",
@@ -32,7 +49,10 @@ builder.Services.AddSwaggerGen(c=>
 });
 builder.Services.AddEndpointsApiExplorer();
 
+
 var app = builder.Build();
+
+
 if(app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -47,7 +67,7 @@ if(app.Environment.IsDevelopment())
 
 app.UseCors("AllowSpecificOrigin");
 
-// Configure the HTTP request pipeline.
+
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -60,6 +80,7 @@ app.UseStaticFiles();
 
 
 app.UseRouting();
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
