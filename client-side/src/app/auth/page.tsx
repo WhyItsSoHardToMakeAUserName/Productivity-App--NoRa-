@@ -1,4 +1,4 @@
-
+import { Register } from "@/api/AuthAPI";
 
 export default function Page(){
     return(
@@ -8,8 +8,12 @@ export default function Page(){
             <h3>Ready to Get Productive ?</h3>
             <p></p>
         </div>
-        <div></div>
+        <div>
+            <form >
+                <input type="text" name="username"/>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
     </div>
-
     )
 }
