@@ -1,4 +1,5 @@
 import { Register } from "@/api/AuthAPI";
+import { register } from "module";
 
 export default function Page(){
     return(
@@ -9,8 +10,16 @@ export default function Page(){
             <p></p>
         </div>
         <div>
-            <form >
-                <input type="text" name="username"/>
+            <form action={Register}>
+                <input type="text" name="UserName"/>
+                <label htmlFor="UserName">username</label>
+
+                <input type="text" name="Password"/>
+                <label htmlFor="Password">password</label>
+
+                <input type="text" name="Email"/>
+                <label htmlFor="Email">email</label>
+
                 <button type="submit">Submit</button>
             </form>
         </div>

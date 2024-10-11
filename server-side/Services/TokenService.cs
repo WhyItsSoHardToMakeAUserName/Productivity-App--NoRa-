@@ -20,35 +20,36 @@ namespace server_side.Services
         Key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_secretKey));
         _issuer = jwtSettings["Issuer"] ?? throw new ArgumentNullException("Issuer is missing in JwtSettings");
         _audience = jwtSettings["Audience"] ?? throw new ArgumentNullException("Audience is missing in JwtSettings");
-
+        Console.WriteLine("tokenservice");
     }
         
-        public string GenerateJwtToken(string username){
+    public string GenerateJwtToken(string username){
+        Console.WriteLine("generated token ");
 
-            var header = new JwtHeader(
-                new SigningCredentials(
-                    Key,
-                    SecurityAlgorithms.HmacSha512Signature        
-            ));
+        var header = new JwtHeader(
+            new SigningCredentials(
+                Key,
+                SecurityAlgorithms.HmacSha512Signature        
+        ));
 
-            var claims = new[]
-            {
-                new Claim(ClaimTypes.NameIdentifier,username)
-            };
+        var claims = new[]
+        {
+            new Claim(ClaimTypes.NameIdentifier,username)
+        };
 
-            var payload = new JwtPayload(
-              issuer:_issuer,
-              audience:_audience,
-              claims:claims,
-              null,
-              expires:DateTime.Now.AddMinutes(2)
-            );
+        var payload = new JwtPayload(
+            issuer:_issuer,
+            audience:_audience,
+            claims:claims,
+            null,
+            expires:DateTime.Now.AddMinutes(2)
+        );
 
-            var token = new JwtSecurityToken(header,payload);
+        var token = new JwtSecurityToken(header,payload);
 
-           return new JwtSecurityTokenHandler().WriteToken(token);
+        return new JwtSecurityTokenHandler().WriteToken(token);
 
-        }
+    }
 
 
     }
