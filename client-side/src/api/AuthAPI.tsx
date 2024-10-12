@@ -12,7 +12,6 @@ export async function Register(formData:FormData){
         password:formData.get("password")?.toString(),
         email:formData.get("email")?.toString()
     }
-    console.log(user)
     try{
         userSchema.parse(user)
 
@@ -24,11 +23,9 @@ export async function Register(formData:FormData){
                 },
                 body:JSON.stringify(user)
             }
-        )
-        console.log(response);
-    }
+        )    }
     catch(error){
-        // console.error(error);
+        console.error(error);
     }
     console.log(formData)
 }

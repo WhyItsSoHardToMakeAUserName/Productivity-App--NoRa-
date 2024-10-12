@@ -9,7 +9,7 @@ export default function Page(){
             <h3>Ready to Get Productive ?</h3>
             <p></p>
         </div>
-        <div>
+        <div className="flex justify-center items-center w-[50vw] flex-col">
             <AuthForm></AuthForm>
         </div>
     </div>
