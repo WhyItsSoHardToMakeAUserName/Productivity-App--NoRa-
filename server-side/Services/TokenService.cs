@@ -20,16 +20,13 @@ namespace server_side.Services
         Key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_secretKey));
         _issuer = jwtSettings["Issuer"] ?? throw new ArgumentNullException("Issuer is missing in JwtSettings");
         _audience = jwtSettings["Audience"] ?? throw new ArgumentNullException("Audience is missing in JwtSettings");
-        Console.WriteLine("tokenservice");
     }
         
     public string GenerateJwtToken(string username){
-        Console.WriteLine("generated token ");
-
         var header = new JwtHeader(
             new SigningCredentials(
                 Key,
-                SecurityAlgorithms.HmacSha512Signature        
+                "HS512"     
         ));
 
         var claims = new[]

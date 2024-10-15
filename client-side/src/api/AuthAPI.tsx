@@ -1,6 +1,7 @@
 "use server"
 import { z } from "zod";
 import { cookies } from "next/headers";
+import { error } from "console";
 const userSchema = z.object({
     username: z.string().min(3,"Username has to consist of at least 3 characters"),
     password:z.string().min(3,"Password has to consist of at least 3 characters"),
@@ -53,6 +54,7 @@ export async function Login(formData:FormData){
         console.log("fetched")
 
         const token = await response.text();
+        if(!token) return error("TOKEN IS INVALID")
         
         console.log(token)
         cookies().set('token',token,{
