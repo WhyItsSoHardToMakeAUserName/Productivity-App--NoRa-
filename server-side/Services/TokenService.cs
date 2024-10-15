@@ -42,7 +42,7 @@ namespace server_side.Services
             audience:_audience,
             claims:claims,
             null,
-            expires:DateTime.Now.AddMinutes(2)
+            expires:DateTime.UtcNow.AddMinutes(10)
         );
 
         var token = new JwtSecurityToken(header,payload);

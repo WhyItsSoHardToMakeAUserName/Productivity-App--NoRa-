@@ -27,7 +27,7 @@ namespace server_side.Controllers
         public async Task<IActionResult> Register([FromBody] User user){
 
 Console.WriteLine("registering");
-            if(await _context.Users.AnyAsync(u => u.Username == user.Username || u.Email == user.Email))
+            if(await _context.Users.AnyAsync(u => u.Email == user.Email))
             {
                 return BadRequest("Username or email already exists");
             }
@@ -42,7 +42,7 @@ Console.WriteLine("registering");
         [HttpPost("login")]
         public async Task<ActionResult<string>> Login([FromBody] User user){
             Console.WriteLine("login");
-            if(await _context.Users.AnyAsync(u => u.Username == user.Username && u.Password == user.Password)){
+            if(await _context.Users.AnyAsync(u => u.Email == user.Email && u.Password == user.Password)){
                 return  Ok(_tokenService.GenerateJwtToken(user.Username));
             }
             return BadRequest("Error");
