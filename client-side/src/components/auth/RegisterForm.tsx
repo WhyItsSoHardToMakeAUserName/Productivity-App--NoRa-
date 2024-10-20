@@ -1,4 +1,4 @@
-import { Register } from "@/api/AuthAPI";
+import { Register } from "@/actions/auth/register";
 import styles from "./auth.module.css"
 import { useRouter } from "next/navigation";
 

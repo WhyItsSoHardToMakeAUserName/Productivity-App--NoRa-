@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   description: "All in one productivity app",
 };
 
-export default function RootLayout({children,}: Readonly<{children: React.ReactNode;}>) {
+export default function RootLayout({children}: Readonly<{children: React.ReactNode;}>) {
   return (
     <html lang="en">
       <body className={`max-h-screen overflow-hidden ${fredoka.className}`}>

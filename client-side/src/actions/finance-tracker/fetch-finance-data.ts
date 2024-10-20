@@ -1,4 +1,4 @@
-import { TFinanceData, TFinanceTrackerData } from "@/types";
+import { TFinanceTrackerData } from "@/types";
 
 export async function FetchFinanceData() {
   const id = 1;
@@ -6,7 +6,6 @@ export async function FetchFinanceData() {
   try {
     const response = await fetch(`${process.env.API_URL}${process.env.FINANCE_DATA_KEY}${id}`);
 
-    // Check if the response is successful (status in the range 200–299)
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }

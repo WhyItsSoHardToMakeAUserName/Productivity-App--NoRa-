@@ -3,9 +3,9 @@ import { createPortal } from "react-dom";
 import React, { ComponentType, ReactElement, ReactNode, useState } from "react";
 interface Prop{
     children:ReactElement,
-    ModalOpenButton:ComponentType<{onClick:() => void , className:string , btnContent:ReactNode}>,
+    ModalOpenButton:ComponentType<{onClick:() => void , className:string , children?:string}>,
     className:string,
-    btnContent:ReactNode
+    btnContent:string
 }
 
 export function Modal({children,ModalOpenButton,className,btnContent}:Prop){
@@ -20,7 +20,7 @@ export function Modal({children,ModalOpenButton,className,btnContent}:Prop){
 
     return(
         <div>
-            <ModalOpenButton onClick={show} className={className} btnContent={btnContent}/>
+            <ModalOpenButton onClick={show} className={className} children={btnContent}/>
             {open&&  createPortal(
                     <>
                         {React.cloneElement(children, { hide })}

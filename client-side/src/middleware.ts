@@ -6,7 +6,7 @@ export async function middleware(request: NextRequest){
     
     //Token Validation
     if(!token){
-        return NextResponse.redirect(new URL('/auth',request.url));
+        return null;
     }
 
     const secret = process.env.JWT_TOKEN_KEY
@@ -16,22 +16,23 @@ export async function middleware(request: NextRequest){
     try{
         await jose.jwtVerify(token,new TextEncoder().encode(secret))
 
-        console.log("AUthenticated")
-
-        if(request.url === "/auth"){
-            return NextResponse.redirect(new URL('/feature',request.url));
+        if(request.nextUrl.pathname === "/auth"){
+            return NextResponse.redirect(new URL('/',request.url));
         }
         return NextResponse.next();
     }
     catch(error){
         console.log(error)
+        if(request.nextUrl.pathname === "/auth") return null;
         return NextResponse.redirect(new URL('/auth',request.url));
 
     }
+
+    //
 }
 
 export const config = {
     matcher:[
-        '/((?!auth|_next/static).*)'
+        '/((?!_next/static).*)'
     ]
 }

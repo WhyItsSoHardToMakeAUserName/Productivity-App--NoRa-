@@ -14,7 +14,7 @@ export default function FinanceChart({ data }: any) {
       <Modal
         ModalOpenButton={Button}
         className="bg-slate-300 text-neutral-800 w-8 h-8 hover:bg-slate-400"
-        btnContent={"+"}
+        btnContent="x"
       >
         <FinanceDataForm>asdads</FinanceDataForm>
       </Modal>

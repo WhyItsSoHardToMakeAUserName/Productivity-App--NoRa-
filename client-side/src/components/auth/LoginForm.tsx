@@ -1,5 +1,5 @@
 "use client"
-import { Login } from "@/api/AuthAPI";
+import { Login } from "@/actions/auth/login";
 import styles from "./auth.module.css"
 import { useRouter } from "next/navigation";
 
