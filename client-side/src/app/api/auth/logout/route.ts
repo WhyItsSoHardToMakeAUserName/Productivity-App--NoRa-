@@ -1,6 +1,3 @@
-// src/app/api/auth/logout/route.ts
-import { NextApiRequest, NextApiResponse } from "next";
-import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
 export function POST() {

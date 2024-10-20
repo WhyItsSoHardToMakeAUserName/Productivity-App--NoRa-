@@ -27,7 +27,6 @@ export async function Login(formData: FormData) {
     const token = await response.text();
     if (!token) return error("TOKEN IS INVALID");
 
-    console.log(token);
 
     cookies().set("token", token, {
       httpOnly: true,
@@ -35,7 +34,7 @@ export async function Login(formData: FormData) {
       maxAge: 60 * 60 * 24,
       path: "/",
     });
-    console.log("cookies set");
+    
     return 200
   } catch (error) {
     console.log(error);

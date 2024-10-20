@@ -1,6 +1,6 @@
 'use client'
 import { createPortal } from "react-dom";
-import React, { ComponentType, ReactElement, ReactNode, useState } from "react";
+import React, { ComponentType, ReactElement, useState } from "react";
 interface Prop{
     children:ReactElement,
     ModalOpenButton:ComponentType<{onClick:() => void , className:string , children?:string}>,

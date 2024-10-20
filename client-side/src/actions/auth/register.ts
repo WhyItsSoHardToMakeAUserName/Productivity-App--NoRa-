@@ -23,5 +23,4 @@ export async function Register(formData:FormData){
     catch(error){
         console.error(error);
     }
-    console.log(formData)
 }
