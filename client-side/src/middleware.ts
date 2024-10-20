@@ -3,12 +3,13 @@ import * as jose from 'jose'
 
 export async function middleware(request: NextRequest){
     const token = request.cookies.get("token")?.value
+    console.log(token)
     
     //Token Validation
     if(!token){
-        return null;
+        if(request.nextUrl.pathname != '/auth') return NextResponse.redirect(new URL('/auth',request.url));
+        return NextResponse.next();
     }
-
     const secret = process.env.JWT_TOKEN_KEY
 
     if(!secret) throw Error("Jwt token key is not configured in the local environment.")

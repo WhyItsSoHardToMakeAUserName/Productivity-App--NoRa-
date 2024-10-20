@@ -2,13 +2,12 @@
 import { Login } from "@/actions/auth/login";
 import styles from "./auth.module.css"
 import { useRouter } from "next/navigation";
-
-
-
+import { FormEvent } from "react";
 
 export default function LoginForm() {
 
   const router = useRouter();
+
   const handleSignUpClick = () => {
     const params = new URLSearchParams(window.location.search);
     params.set('register', 'true');
@@ -16,6 +15,16 @@ export default function LoginForm() {
     // Update the URL without reloading the page
     router.replace(`?${params.toString()}`);
   };
+
+  const handleLogInEvent = async(event:FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    console.log('nice')
+    const response = await Login(new FormData(event.currentTarget));
+
+
+    if(response == 200) router.push('/')
+  }
 
   return (
     <>
@@ -33,7 +42,7 @@ export default function LoginForm() {
       </div>
 
 
-      <form className={styles.form} action={Login} >
+      <form className={styles.form} onSubmit={handleLogInEvent} >
         <label htmlFor="email">Email</label>
         <input type="text" name="email" className={styles.input} placeholder="Enter your email"/>
 
