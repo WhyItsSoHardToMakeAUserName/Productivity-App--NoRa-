@@ -18,7 +18,7 @@ export async function middleware(request: NextRequest){
         await jose.jwtVerify(token,new TextEncoder().encode(secret))
 
         if(request.nextUrl.pathname === "/auth"){
-            return NextResponse.redirect(new URL('/',request.url));
+            return NextResponse.redirect(new URL('/main',request.url));
         }
         return NextResponse.next();
     }
