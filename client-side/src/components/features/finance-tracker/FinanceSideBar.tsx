@@ -2,7 +2,7 @@
 
 import { Plus , Edit,Trello} from '@geist-ui/icons'
 import { useRouter } from 'next/navigation'
-import { ReactElement, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 
 type action = {
@@ -13,6 +13,7 @@ type action = {
 export default function Page(){
     const router = useRouter();
     const [IsExpanded,setIsExpanded] = useState(false);
+    const [isClient, setIsClient] = useState(false);
 
     const actions:action[] = [
         {element:<Plus></Plus>,
@@ -26,6 +27,10 @@ export default function Page(){
         },
 
     ]
+    
+    useEffect(() => {
+        setIsClient(true); // Ensures code only runs in the client-side environment
+    }, []);
 
     function setSearchParam(param:string,event:React.MouseEvent<HTMLButtonElement>){
         event.preventDefault()
@@ -38,7 +43,7 @@ export default function Page(){
 
 
     return(
-        createPortal(
+        isClient && createPortal(
         <div className={`absolute flex flex-col right-0 bg-l-white-200 h-fit rounded-full mx-2 px-[15px] py-[15px] top-1/2 -translate-y-1/2 gap-1
             
         `}
@@ -56,6 +61,5 @@ export default function Page(){
         </div>,
         document.body
         )
-        
     )
 }

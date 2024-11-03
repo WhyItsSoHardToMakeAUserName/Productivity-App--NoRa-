@@ -1,0 +1,52 @@
+.text-input-container{
+    display: flex;
+    flex-direction: column;
+    
+}
+.radio-input-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.category-input-container{
+    display: flex;
+    align-items: center;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    justify-content: space-evenly;
+
+}
+.input{
+    border-radius: 9999px;
+    padding: 0 20px;
+}
+.amount-input{
+    height:70px;
+    width: 60%;
+    font-size: 30px;
+    padding-left: 20px;
+}
+.radio-label{
+    background-color: #d9d9d9;
+    transition-duration: 200ms;
+    border-radius: 9999px;
+    padding: 5px;
+    width: 30%;
+    min-width: fit-content;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+}
+
+/* Color of Income Button */
+input[type="radio"]:nth-of-type(1):checked + .radio-label {
+    background-color: #77df7b; 
+    color: white;
+}
+
+/* Color of Expense Button */
+input[type="radio"]:nth-of-type(2):checked + .radio-label {
+    background-color: #eb6262;
+    color: white;
+}

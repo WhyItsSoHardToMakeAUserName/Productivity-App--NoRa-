@@ -4,6 +4,7 @@ import { ChevronUp } from '@geist-ui/icons';
 import { useSearchParams ,useRouter} from "next/navigation";
 import { useMemo,useRef } from "react";
 import { useTransition, animated } from "@react-spring/web";
+import FAdd from "./tool-bar/FAdd";
 
 export default function Page() {
     const router = useRouter();
@@ -27,7 +28,7 @@ export default function Page() {
     const currentTool = useMemo(() => {
         switch (action) {
             case 'add':
-                return <p ref={toolBarContent}>add</p>;
+                return <FAdd ref={toolBarContent}/>;
             case 'edit':
                 return <p ref={toolBarContent}>edit</p>;
             case 'journal':
@@ -62,8 +63,8 @@ export default function Page() {
             </div>
                 {transition((styles,item) => (
 
-                <animated.div style={styles} className="w-full flex justify-center"  >
-                    <div>
+                <animated.div style={styles} className="w-full flex justify-center">
+                    <div className="w-[60%]">
                         {item}
                     </div>
                 </animated.div>
