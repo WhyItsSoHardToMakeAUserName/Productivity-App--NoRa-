@@ -3,8 +3,7 @@ import * as jose from 'jose'
 
 export async function middleware(request: NextRequest){
     const token = request.cookies.get("token")?.value
-    console.log(token)
-    
+        
     //Token Validation
     if(!token){
         if(request.nextUrl.pathname != '/auth') return NextResponse.redirect(new URL('/auth',request.url));
@@ -18,7 +17,7 @@ export async function middleware(request: NextRequest){
         await jose.jwtVerify(token,new TextEncoder().encode(secret))
 
         if(request.nextUrl.pathname === "/auth"){
-            return NextResponse.redirect(new URL('/main',request.url));
+            return NextResponse.redirect(new URL('/home',request.url));
         }
         return NextResponse.next();
     }

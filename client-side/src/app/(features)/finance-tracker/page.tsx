@@ -1,5 +1,5 @@
 import { FetchFinanceData } from "@/actions/finance-tracker/fetch-finance-data";
-import FinanceChart from "@/components/FinanceChart";
+import FinanceChart from "@/components/features/finance-tracker/FinanceChart";
 
 export default async function Page() {
   var data = await FetchFinanceData();
@@ -8,6 +8,7 @@ export default async function Page() {
     <div className="flex flex-col items-center justify-center w-1/3">
       <div className="h-3/4  w-full  flex justify-center">
         <FinanceChart data={data}></FinanceChart>
+
       </div>
     </div>
   );

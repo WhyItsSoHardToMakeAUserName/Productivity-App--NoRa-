@@ -1,6 +1,6 @@
 'use client'
 import { Home ,Briefcase ,Settings, Bookmark,CheckSquare,List} from '@geist-ui/icons'
-import { ReactElement, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import { createPortal } from "react-dom"
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
@@ -13,8 +13,12 @@ type navElement = {
 
 export default function SideBar(){
     const path = usePathname();
-    console.log(path)
     const [isExpanded, setIsExpanded] = useState(false)
+    const [isClient, setIsClient] = useState(false);
+
+    useEffect(() => {
+        setIsClient(true); // Check if we're in the client
+    }, []);
 
 
     let navElements:navElement[] = [
@@ -26,7 +30,7 @@ export default function SideBar(){
     ]
 
     return(
-        createPortal(
+        isClient && createPortal(
             <div className={`mx-2 px-[15px] py-[30px] gap-[2%] h-[70vh] top-1/2 -translate-y-1/2 justify-between flex flex-col absolute bg-l-white-200 rounded-[40px] transition-all duration-500 overflow-y-scroll overflow-x-hidden
             ${isExpanded ? 'w-[200px]' : 'w-[86px]'}`}
             onMouseEnter={()=> {setIsExpanded(true)}}
@@ -34,7 +38,7 @@ export default function SideBar(){
                 {navElements.map((element)=>
                     <Link 
                     href={element.route}
-                    key={element.route}
+                    key={element.label}
                     className={`${path === element.route ? (!isExpanded?'bg-l-white-300':'bg-l-black') : 'hover:bg-l-white-300'} 
                     flex  rounded-full px-[15px] py-[15px] text-nowrap `}>
                         <div className='w-[24px] h-[24px]'>

@@ -1,3 +1,5 @@
+import { Chart, Legend } from "chart.js";
+
 export const chartOptions = {
   plugins: {
     tooltip: {
@@ -10,5 +12,10 @@ export const chartOptions = {
       },
       displayColors: false, // This removes the color box next to the tooltip label
     },
+    legend:{
+      labels:{
+        usePointStyle: true, // Makes each legend item circular by default
+      }
+    }
   },
 };
