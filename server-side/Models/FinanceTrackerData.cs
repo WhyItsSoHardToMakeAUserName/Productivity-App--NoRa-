@@ -4,13 +4,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace server_side.Models
 {
-    public class FinanceTrackerData
+    public class FinanceTrackerData()
     {
         [Key]
-        public int UserId{get;set;}  
+        public int UserId{get;set;}
+        public required User User { get; set; }
         public float BackgroundOpacity{get;set;}
         public float BorderOpacity{get;set;}
-        public List<FinanceData>? FinanceData{get;set;}
+        public List<FinanceRecord> FinanceRecords{get;set;} = [];
     }
 
 }

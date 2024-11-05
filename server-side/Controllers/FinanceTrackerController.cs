@@ -35,8 +35,8 @@ namespace server_side.Controllers
     public async Task<ActionResult<FinanceTrackerData>> GetFinanceData(int Id)
     {
 
-        var data = await _context.FinanceTrackerData.Include(f => f.FinanceData)
-        .ThenInclude(financeData => financeData.Color)
+        var data = await _context.FinanceTrackerData.Include(f => f.FinanceRecords)
+        .ThenInclude(d => d.Category)
         .Where(d => d.UserId == Id)
         .FirstOrDefaultAsync();
 

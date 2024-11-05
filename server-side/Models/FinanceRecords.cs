@@ -7,14 +7,16 @@ using System.Threading.Tasks;
 
 namespace server_side.Models
 {
-    public  class FinanceData{
+    public  class FinanceRecord{
         [Key]
         public int Id{get;set;}
-        public int FinanceTrackerDataId{get;set;}
-        public Color? Color {get;set;}
-        public string? Category{get;set;}
+        public int UserId{get;set;}
+        public required FinanceTrackerData FinanceTrackerData{get;set;}
+        public int CategoryId {get;set;}
+        public required Category Category{get;set;}
         public required float Amount{get;set;}
         public string? Currency{get;set;} 
-        public required bool profit{get;set;}
+        public required bool IsProfit{get;set;}
+        public DateTime DateCreated {get;set;} = DateTime.Now;
     }
 }
