@@ -2,13 +2,16 @@
 import { createPortal } from "react-dom";
 import { ChevronUp } from '@geist-ui/icons';
 import { useSearchParams ,useRouter} from "next/navigation";
-import { useMemo,useRef } from "react";
+import { useEffect, useMemo,useRef, useState } from "react";
 import { useTransition, animated } from "@react-spring/web";
 import FAdd from "./tool-bar/FAdd";
 
-export default function Page() {
-    const router = useRouter();
+export function ToolBar({categories}:any) {
+    //prevent loading before client render
+    const [isClient,setIsClient] = useState(false);
+    useEffect(()=>(setIsClient(true)),[])
 
+    const router = useRouter();
     const searchParam = useSearchParams();
 
     var action = searchParam.get('action');
@@ -19,11 +22,10 @@ export default function Page() {
     const toolBarContent = useRef<HTMLDivElement>(null);
 
     const toggleOpen = ()=> {
-        const newSearchParams = new URLSearchParams(window.location.search);
+        const newSearchParams = new URLSearchParams(searchParam);
         newSearchParams.set('open',(!open).toString());
         router.replace(`?${newSearchParams.toString()}`);
     }
-
 
     const currentTool = useMemo(() => {
         switch (action) {
@@ -43,6 +45,7 @@ export default function Page() {
                 return <p>default</p>;
         }
     }, [action]);
+    
 
     const transition = useTransition(currentTool, {
         from:{opacity:0,height:0},
@@ -53,6 +56,8 @@ export default function Page() {
         leave:{opacity:0,height:0}
     })
 
+    if(!isClient) return null
+
     return createPortal(
         <div className="absolute w-[70vw] bottom-0 flex flex-col h-fit items-center justify-center left-1/2 -translate-x-1/2 bg-l-white-200 rounded-t-full">
             <div className="cursor-pointer">
@@ -62,7 +67,6 @@ export default function Page() {
                 </div>
             </div>
                 {transition((styles,item) => (
-
                 <animated.div style={styles} className="w-full flex justify-center">
                     <div className="w-[60%]">
                         {item}

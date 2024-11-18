@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { fredoka } from "@/components/ui";
+import StoreProvider from "@/redux/StoreProvider";
 
 export const metadata: Metadata = {
   title: "NoRa",

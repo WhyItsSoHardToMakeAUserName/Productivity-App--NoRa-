@@ -1,0 +1,24 @@
+'use server'
+
+import { TCategory } from "@/types";
+
+export async function FetchCategories(UserId:number):Promise<TCategory[]>{
+    try{
+        const response = await fetch(`${process.env.API_URL}${process.env.FINANCE_CATEGORY_KEY}${UserId}`);
+
+        console.log(process.env.FINANCE_CATEGORY_KEY)
+        console.log(process.env.API_URL)
+        return response.json()
+    }
+    catch(error){
+        console.log(error);
+        const categories:TCategory[] =[{
+            id: 0,
+            name: "",
+            red: 0,
+            green: 0,
+            blue: 0
+        }]
+        return categories
+    }
+}

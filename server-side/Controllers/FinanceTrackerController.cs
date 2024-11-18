@@ -23,25 +23,56 @@ namespace server_side.Controllers
             _context = context;
         }
 
-    [Authorize]
-    [HttpGet("home")]
-    public string Home()
-    {
-        return "hi";
-    }
+        [HttpPost("AddFinanceRecord")]
+        public async Task<ActionResult>AddFinanceRecord([FromBody] FinanceRecord financeRecord){
 
+            var userExists = await _context.Users.AnyAsync(u => u.Id == financeRecord.UserId);
 
-    [HttpGet("GetFinanceData/{Id:int}")]
-    public async Task<ActionResult<FinanceTrackerData>> GetFinanceData(int Id)
-    {
+            await _context.FinanceRecords.AddAsync(financeRecord);
+            await _context.SaveChangesAsync();
 
-        var data = await _context.FinanceTrackerData.Include(f => f.FinanceRecords)
-        .ThenInclude(d => d.Category)
-        .Where(d => d.UserId == Id)
-        .FirstOrDefaultAsync();
+            return Ok();
+        }
 
-        if (data == null) return NotFound();
-        return data;
-    }
-    }
-}
+        [HttpGet("GetFinanceData/{Id:int}")]
+        public async Task<ActionResult<FinanceTrackerData>> GetFinanceData(int Id)
+        {
+
+            var data = await _context.FinanceTrackerData
+            .Include(f => f.FinanceRecords)
+            .Where(d => d.UserId == Id)
+            .FirstOrDefaultAsync();
+
+            if (data == null) return NotFound();
+            return data;
+        }
+
+        [HttpPost("AddCategory")]
+        public async Task<IActionResult> AddCategory([FromBody] Category category){
+            var userExists = await _context.Users.AnyAsync(u => u.Id == category.UserId);
+            if (!userExists)
+            {
+                return BadRequest("User does not exist.");
+            }
+
+            var data = await _context.Categories
+            .FirstOrDefaultAsync(c => c.Name == category.Name && category.UserId == c.UserId);
+
+            if(data != null) return BadRequest("The same category already exists");
+            
+            await _context.Categories.AddAsync(category);
+            await _context.SaveChangesAsync();
+
+            return Ok("Category created successfully");
+        }
+
+        [HttpGet("GetCategories/{userId:int}")]
+        public async Task<ActionResult<List<Category>>> GetCategories(int userId){
+            var data = await _context.Categories
+                .Where(c => c.UserId == userId)
+                .ToListAsync();
+
+            return Ok(data);
+        }
+
+}}

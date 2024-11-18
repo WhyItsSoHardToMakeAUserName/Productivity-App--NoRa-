@@ -10,7 +10,7 @@ type action = {
     param:string
 }
 
-export default function Page(){
+export function SideBar(){
     const router = useRouter();
     const [IsExpanded,setIsExpanded] = useState(false);
     const [isClient, setIsClient] = useState(false);

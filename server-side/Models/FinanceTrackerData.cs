@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 
 namespace server_side.Models
@@ -8,7 +9,8 @@ namespace server_side.Models
     {
         [Key]
         public int UserId{get;set;}
-        public required User User { get; set; }
+        [JsonIgnore]
+        public User? User { get; set; }
         public float BackgroundOpacity{get;set;}
         public float BorderOpacity{get;set;}
         public List<FinanceRecord> FinanceRecords{get;set;} = [];

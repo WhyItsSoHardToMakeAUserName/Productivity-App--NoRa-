@@ -1,58 +1,40 @@
+'use server'
+
 import { TFinanceTrackerData } from "@/types";
 
-export async function FetchFinanceData() {
-  const id = 1;
+export async function FetchFinanceData(id:number):Promise<TFinanceTrackerData> {
+
   
   try {
-    const response = await fetch(`${process.env.API_URL}${process.env.FINANCE_DATA_KEY}${id}`);
+    const response = await fetch(`${process.env.API_URL}${process.env.FINANCE_DATA_KEY}${id}`,
+      {
+        method:"GET",
+        cache:"no-store"
+      }
+    );
+    console.log(response)
 
+    
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
-
+    
     const data: TFinanceTrackerData = await response.json();
-    let labels: string[] = [];
-    let values: number[] = [];
-    let backgroundColors: string[] = [];
-    let borderColors: string[] = [];
+    console.log('Fetched Data:', data);
 
-    data.financeData.map((d) => (
-      labels.push(d.category),
-      values.push(d.amount),
-      backgroundColors.push(`rgba(${d.color.red},${d.color.green},${d.color.blue},${data.backgroundOpacity})`),
-      borderColors.push(`rgba(${d.color.red},${d.color.green},${d.color.blue},${data.borderOpacity})`)
-    ));
-
-    const chartData = {
-      labels,
-      datasets: [
-        {
-          label: '',
-          data: values,
-          backgroundColor: backgroundColors,
-          borderColor: borderColors,
-          borderWidth: 1,
-        },
-      ],
-    };
-
-    return chartData;
+    return data;
 
   } catch (error) {
     console.error("Failed to fetch finance data:", error);
+    
+    const fallbackData:TFinanceTrackerData = {
+      userId: 0,
+      backgroundOpacity: 0,
+      borderOpacity: 0,
+      financeRecords: []
+    }
 
     // Return a fallback response or an empty chart in case of failure
-    return {
-      labels: [],
-      datasets: [
-        {
-          label: '',
-          data: [],
-          backgroundColor: [],
-          borderColor: [],
-          borderWidth: 1,
-        },
-      ],
-    };
+    return fallbackData;
   }
 }
