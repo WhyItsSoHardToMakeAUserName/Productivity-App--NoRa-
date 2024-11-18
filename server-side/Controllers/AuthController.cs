@@ -42,8 +42,9 @@ Console.WriteLine("registering");
         [HttpPost("login")]
         public async Task<ActionResult<string>> Login([FromBody] User user){
             Console.WriteLine("login");
-            if(await _context.Users.AnyAsync(u => u.Email == user.Email && u.Password == user.Password)){
-                return  Ok(_tokenService.GenerateJwtToken(user.Username));
+            var User = await _context.Users.FirstOrDefaultAsync(u => u.Email == user.Email && u.Password == user.Password);
+            if(User!=null){
+                return  Ok(_tokenService.GenerateJwtToken(User));
             }
             return BadRequest("Error");
         }

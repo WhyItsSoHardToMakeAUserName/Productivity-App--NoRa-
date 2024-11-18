@@ -2,6 +2,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
+using server_side.Models;
 
 namespace server_side.Services
 {
@@ -22,7 +23,7 @@ namespace server_side.Services
         _audience = jwtSettings["Audience"] ?? throw new ArgumentNullException("Audience is missing in JwtSettings");
     }
         
-    public string GenerateJwtToken(string username){
+    public string GenerateJwtToken(User user){
         var header = new JwtHeader(
             new SigningCredentials(
                 Key,
@@ -31,7 +32,9 @@ namespace server_side.Services
 
         var claims = new[]
         {
-            new Claim(ClaimTypes.NameIdentifier,username)
+            new Claim(JwtRegisteredClaimNames.Name,user.Username),
+            new Claim(JwtRegisteredClaimNames.NameId,user.Id.ToString()),
+            new Claim(JwtRegisteredClaimNames.Email,user.Email),
         };
 
         var payload = new JwtPayload(
