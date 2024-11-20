@@ -1,7 +1,6 @@
-import { FinanceDataForm } from "@/components/modals";
 import React, { forwardRef } from "react";
 import styles from './tool-bar.module.css'
-import { getRandomHexColor } from "@/components/utils/util";
+import { getRandomHexColor } from "@/components/lib/colorGenerator";
 import { ChevronDown, Circle } from "@geist-ui/icons";
 import { AddFinanceData } from "@/actions/finance-tracker/add-finance-data";
 

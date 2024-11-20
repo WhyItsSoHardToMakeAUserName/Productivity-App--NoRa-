@@ -12,7 +12,6 @@ export async function FetchFinanceData(id:number):Promise<TFinanceTrackerData> {
         cache:"no-store"
       }
     );
-    console.log(response)
 
     
     if (!response.ok) {
@@ -20,7 +19,6 @@ export async function FetchFinanceData(id:number):Promise<TFinanceTrackerData> {
     }
     
     const data: TFinanceTrackerData = await response.json();
-    console.log('Fetched Data:', data);
 
     return data;
 

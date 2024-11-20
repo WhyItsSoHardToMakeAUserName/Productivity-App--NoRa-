@@ -1,4 +1,4 @@
-import { getRandomHexColor } from "../utils/util";
+import { getRandomHexColor } from "../lib/colorGenerator";
 
 export function FinanceDataForm({hide}:any){
     return(

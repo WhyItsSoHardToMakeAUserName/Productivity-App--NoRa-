@@ -1,3 +1,5 @@
+import { JWTPayload } from "jose"
+
 export type TFinanceRecord = {
     id:number,
     userId:number,
@@ -20,4 +22,10 @@ export type TCategory={
     red:number,
     green:number,
     blue:number,
+}
+
+export interface CustomJWTPayload extends JWTPayload{
+    name: string;
+    nameid: string;
+    email: string;
 }

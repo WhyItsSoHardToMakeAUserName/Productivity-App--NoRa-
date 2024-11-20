@@ -1,10 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit"
-import testSlice from "./features/testSlice"
 import financeDataSlice from "./features/financeDataSlice"
 
 export const makeStore = () => {
     return configureStore({
-        reducer:{testSlice,financeDataSlice}
+        reducer:{financeDataSlice}
     })
 }
 

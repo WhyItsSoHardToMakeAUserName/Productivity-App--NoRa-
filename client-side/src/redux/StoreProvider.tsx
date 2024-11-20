@@ -1,18 +1,32 @@
-'use client'
-import { useRef } from 'react'
-import { Provider } from 'react-redux'
-import { makeStore, AppStore } from './store'
+'use client';
+import { useEffect, useRef } from 'react';
+import { Provider } from 'react-redux';
+import { makeStore, AppStore } from './store';
+import { SetInitialFinanceDataAsync, setToken } from './features/financeDataSlice';
+import { decodeJwt } from 'jose';
+import { CustomJWTPayload } from '@/types';
 
 export default function StoreProvider({
-  children
+  children,
+  token,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
+  token?: string;
 }) {
-  const storeRef = useRef<AppStore>()
+  const storeRef = useRef<AppStore | null>(null);
+
   if (!storeRef.current) {
-    // Create the store instance the first time this renders
-    storeRef.current = makeStore()
+    storeRef.current = makeStore();
   }
 
-  return <Provider store={storeRef.current}>{children}</Provider>
+  useEffect(() => {
+    if (storeRef.current && token) {
+      const jwtPayload = decodeJwt(token) as CustomJWTPayload;
+
+      storeRef.current.dispatch(setToken(jwtPayload));
+      storeRef.current.dispatch(SetInitialFinanceDataAsync(parseInt(jwtPayload.nameid)));
+    }
+  });
+
+  return <Provider store={storeRef.current}>{children}</Provider>;
 }
