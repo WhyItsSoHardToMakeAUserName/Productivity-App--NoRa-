@@ -6,8 +6,6 @@ export async function FetchCategories(UserId:number):Promise<TCategory[]>{
     try{
         const response = await fetch(`${process.env.API_URL}${process.env.FINANCE_CATEGORY_KEY}${UserId}`);
 
-        console.log(process.env.FINANCE_CATEGORY_KEY)
-        console.log(process.env.API_URL)
         return response.json()
     }
     catch(error){

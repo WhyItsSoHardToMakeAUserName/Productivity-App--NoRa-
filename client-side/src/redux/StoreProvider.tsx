@@ -18,7 +18,6 @@ export default function StoreProvider({
   if (!storeRef.current) {
     storeRef.current = makeStore();
   }
-
   useEffect(() => {
     if (storeRef.current && token) {
       const jwtPayload = decodeJwt(token) as CustomJWTPayload;
@@ -26,7 +25,7 @@ export default function StoreProvider({
       storeRef.current.dispatch(setToken(jwtPayload));
       storeRef.current.dispatch(SetInitialFinanceDataAsync(parseInt(jwtPayload.nameid)));
     }
-  });
+  },[token]);
 
   return <Provider store={storeRef.current}>{children}</Provider>;
 }
