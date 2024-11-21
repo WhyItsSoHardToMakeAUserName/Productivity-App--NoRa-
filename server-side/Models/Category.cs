@@ -12,7 +12,6 @@ namespace server_side.Models
     {
         [Key]
         public int Id { get; set;}
-        [JsonIgnore]
         public int UserId { get; set;}
         public required string Name { get; set;}
         public int Red{ get; set;} = 12;

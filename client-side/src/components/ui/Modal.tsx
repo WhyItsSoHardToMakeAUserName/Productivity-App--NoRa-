@@ -1,14 +1,13 @@
 'use client'
 import { createPortal } from "react-dom";
-import React, { ComponentType, ReactElement, useState } from "react";
+import React, {ReactElement, useState } from "react";
 interface Prop{
     children:ReactElement,
-    ModalOpenButton:ComponentType<{onClick:() => void , className:string , children?:string}>,
-    className:string,
-    btnContent:string
+    buttonStyle:string,
+    btnContent:ReactElement
 }
 
-export function Modal({children,ModalOpenButton,className,btnContent}:Prop){
+export function Modal({children,buttonStyle,btnContent}:Prop){
     const [open, setOpen] = useState(false)
 
     const show = ()=>{
@@ -20,11 +19,20 @@ export function Modal({children,ModalOpenButton,className,btnContent}:Prop){
 
     return(
         <div>
-            <ModalOpenButton onClick={show} className={className} children={btnContent}/>
+            <button onClick={show} type="button" className={buttonStyle}>{btnContent}</button>
             {open&&  createPortal(
-                    <>
-                        {React.cloneElement(children, { hide })}
-                    </>
+                    <div className="fixed inset-0 flex justify-center items-center h-screen w-screen">
+                        {/* transparent background */}
+                        <div onClick={(e)=>{
+                            e.preventDefault()
+                            hide();
+                        }} className="absolute inset-0  bg-slate-700 opacity-50 z-10"></div>
+                        <div className="z-20 w-1/2 h-1/2">
+                            {React.cloneElement(children, { hide })}
+
+                        </div>
+                
+                    </div>
                 ,
                 document.body
             )}
