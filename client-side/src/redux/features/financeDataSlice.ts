@@ -28,6 +28,13 @@ const financeDataSlice = createSlice({
     reducers:{
         setToken:(state,action)=>{
             state.value.token = action.payload;
+        },
+        RdeleteCategory:(state,action)=>{
+            const categoryId = action.payload;
+            state.value.categories = state.value.categories.filter(
+                (c)=> c.id != categoryId
+            );
+            console.log('deleting from rstore ')
         }
     },
     extraReducers:(builder)=>{
@@ -50,6 +57,6 @@ export const SetInitialFinanceDataAsync = createAsyncThunk<{data:TFinanceTracker
         return {data:data,categories:categories};
     }
 ) 
-export const {setToken} = financeDataSlice.actions;
+export const {setToken,RdeleteCategory} = financeDataSlice.actions;
 
 export default financeDataSlice.reducer

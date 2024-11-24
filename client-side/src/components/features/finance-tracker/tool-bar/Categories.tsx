@@ -1,9 +1,13 @@
+import { deleteCategory } from "@/actions/finance-tracker/delete-category";
+import { RdeleteCategory } from "@/redux/features/financeDataSlice";
 import { RootState } from "@/redux/store"
 import { useRouter, useSearchParams } from "next/navigation";
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 
 export default function Categories({hide}:any){
     const reduxData = useSelector((state:RootState)=> state.financeDataSlice.value)
+    const dispatch = useDispatch();
+
     const router = useRouter();
     const searchParam = useSearchParams();
 
@@ -11,6 +15,16 @@ export default function Categories({hide}:any){
         const newSearchParams = new URLSearchParams(searchParam);
         newSearchParams.set('categoryId',id.toString())
         router.replace(`?${newSearchParams}`);
+    }
+
+    const handleDelete = async (categoryId:number)=>{
+        try{
+            await deleteCategory(categoryId);
+            dispatch(RdeleteCategory(categoryId))
+        }
+        catch(error){
+            console.log(error)
+        }
     }
 
     return(
@@ -26,7 +40,7 @@ export default function Categories({hide}:any){
                                 <div className="w-5 h-5 rounded-full" style={{backgroundColor:`rgb(${c.red},${c.green},${c.blue})`}}></div>
                                 <p>{c.name}</p>
                             </div>
-                            <button className="right-0 bg-red-400 h-10 w-10 rounded-full text-white">x</button>
+                            <button onClick={()=>{handleDelete(c.id)}} className="right-0 bg-red-400 h-10 w-10 rounded-full text-white">x</button>
                         </div>
                     ))
                 }

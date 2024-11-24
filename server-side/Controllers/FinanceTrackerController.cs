@@ -75,4 +75,15 @@ namespace server_side.Controllers
             return Ok(data);
         }
 
+        [HttpDelete("DeleteCategories/{categoryId:int}")]
+        public async Task<ActionResult> DeleteCategory(int categoryId){
+            var category = await _context.Categories.FindAsync(categoryId);
+            if (category == null)return NotFound();
+
+            _context.Categories.Remove(category);
+
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
 }}
