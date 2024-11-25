@@ -4,7 +4,7 @@ import React, {ReactElement, useState } from "react";
 interface Prop{
     children:ReactElement,
     buttonStyle:string,
-    btnContent:ReactElement
+    btnContent:ReactElement|string
 }
 
 export function Modal({children,buttonStyle,btnContent}:Prop){
@@ -18,7 +18,7 @@ export function Modal({children,buttonStyle,btnContent}:Prop){
     }
 
     return(
-        <div>
+        <>
             <button onClick={show} type="button" className={buttonStyle}>{btnContent}</button>
             {open&&  createPortal(
                     <div className="fixed inset-0 flex justify-center items-center h-screen w-screen">
@@ -27,7 +27,7 @@ export function Modal({children,buttonStyle,btnContent}:Prop){
                             e.preventDefault()
                             hide();
                         }} className="absolute inset-0  bg-slate-700 opacity-50 z-10"></div>
-                        <div className="z-20 w-1/2 h-1/2">
+                        <div className="z-20 w-1/2 h-auto">
                             {React.cloneElement(children, { hide })}
 
                         </div>
@@ -36,6 +36,6 @@ export function Modal({children,buttonStyle,btnContent}:Prop){
                 ,
                 document.body
             )}
-        </div>
+        </>
     );
 }
