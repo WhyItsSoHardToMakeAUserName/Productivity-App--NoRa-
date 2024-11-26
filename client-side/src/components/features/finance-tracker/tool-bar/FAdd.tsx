@@ -27,11 +27,7 @@ const FAdd = forwardRef<HTMLDivElement, React.HTMLProps<HTMLDivElement>>((props,
             const category = categories.find((c) => c.id === parseInt(categoryId));
             if (category) {
                 setCategoryName(category.name ?? '');
-                setCategoryColor(rgbToHex(
-                    category.red ?? 0,
-                    category.green ?? 0,
-                    category.blue ?? 0
-                ));
+                setCategoryColor(category.hexColor);
             }
         }
     }, [categoryId, categories]);

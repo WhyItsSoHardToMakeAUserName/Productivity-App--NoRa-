@@ -13,9 +13,7 @@ export async function FetchCategories(UserId:number):Promise<TCategory[]>{
         const categories:TCategory[] =[{
             id: 0,
             name: "",
-            red: 0,
-            green: 0,
-            blue: 0
+            hexColor:""
         }]
         return categories
     }

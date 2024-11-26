@@ -22,7 +22,7 @@ export function Chart() {
     const category = categories.find((c)=> c.id == financeRecord.categoryId)
     labels.push(category?.name||'common');
     data.push(financeRecord.amount);
-    backgroundColors.push(`rbg(${category?.red},${category?.green},${category?.blue})`);
+    backgroundColors.push(category?.hexColor||'#ffffff');
   })
   
   //data for finance chart
@@ -31,7 +31,7 @@ export function Chart() {
     datasets:[{
       label:'value',
       data,
-      backgroundColors
+      backgroundColor:backgroundColors
     }]
   }
 

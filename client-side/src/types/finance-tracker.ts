@@ -19,9 +19,7 @@ export type TFinanceTrackerData={
 export type TCategory={
     id:number,
     name:string,
-    red:number,
-    green:number,
-    blue:number,
+    hexColor:string
 }
 
 export interface CustomJWTPayload extends JWTPayload{

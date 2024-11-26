@@ -12,11 +12,9 @@ namespace server_side.Models
     {
         [Key]
         public int Id { get; set;}
-        public int UserId { get; set;}
+        public required int UserId { get; set;}
         public required string Name { get; set;}
-        public int Red{ get; set;} = 12;
-        public int Green{ get; set;}
-        public int Blue{ get; set;}
+        public string HexColor { get; set;} = "#ffffff";
         [JsonIgnore]
         public List<FinanceRecord>? FinanceRecords { get; set;} = [];
     }
