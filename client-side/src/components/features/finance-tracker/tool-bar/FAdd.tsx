@@ -8,17 +8,19 @@ import Categories from "./Categories";
 import { useSearchParams } from "next/navigation";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
-import rgbToHex from "@/components/lib/rgbToHex";
 import { countryByCurrencyCode } from "@/constants/country-by-currency-code";
 import Currencies from "./Currencies";
 
 const FAdd = forwardRef<HTMLDivElement, React.HTMLProps<HTMLDivElement>>((props, ref) => {
+    const reduxData = useSelector((state:RootState)=> state.financeDataSlice.value)
+
     const searchParams = useSearchParams();
     const categoryId = searchParams.get('categoryId');
     const currencyP = searchParams.get('currency')??'USD'
+    
     const [currency,setCurrency] = useState(currencyP);
-    const categories = useSelector((state: RootState) => state.financeDataSlice.value.categories);
 
+    const categories = useSelector((state: RootState) => state.financeDataSlice.value.categories);
     const [categoryName, setCategoryName] = useState<string>('');
     const [categoryColor, setCategoryColor] = useState<string>(getRandomHexColor());
 
@@ -44,6 +46,7 @@ const FAdd = forwardRef<HTMLDivElement, React.HTMLProps<HTMLDivElement>>((props,
     return (
         <div ref={ref} {...props}>
             <form action={AddFinanceData}>
+                <input type="text" name="userId" readOnly value={String(reduxData.token.nameid ?? 'error')} className="hidden" />
 
                 {/* Amount and Currency*/}
                 <div className='flex justify-between py-[10px]'>
@@ -52,20 +55,20 @@ const FAdd = forwardRef<HTMLDivElement, React.HTMLProps<HTMLDivElement>>((props,
                     btnContent={currency}>
                         <Currencies></Currencies>
                     </Modal>
-                    <input type="text" name="currency" readOnly value={currency} className="hidden"/>
                     <input type="text"name="amount" maxLength={20} placeholder="Amount" className={`${styles['amount-input']} ${styles.input}`} />
+                    <input type="text" name="currency" readOnly value={currency} className="hidden"/>
                 </div>
 
                 {/* Income Or Expense */}
                 <div className={`${styles['radio-input-container']}`}>
-                    <input id="income" type="radio" name="profit" value='true' className="hidden" defaultChecked />
+                    <input id="income" type="radio" name="isProfit" value='true' className="hidden" defaultChecked />
                     <label htmlFor="income" className={`${styles['radio-label']}`}> Income </label>
 
                     <span className="flex-grow h-[1px] bg-black mx-2"></span>
                     <span><Circle></Circle></span>
                     <span className="flex-grow h-[1px] bg-black mx-2"></span>
 
-                    <input id="expense" type="radio" name="profit" className="hidden" />
+                    <input id="expense" type="radio" name="isProfit" className="hidden" />
                     <label htmlFor="expense" className={`${styles['radio-label']}`}> Expense </label>
                 </div>
 
@@ -74,7 +77,7 @@ const FAdd = forwardRef<HTMLDivElement, React.HTMLProps<HTMLDivElement>>((props,
                     <input
                         type="color"
                         value={categoryColor}
-                        name="color"
+                        name="hexColor"
                         onChange={(e) => setCategoryColor(e.target.value)}
                         className="rounded-full min-w-5 min-h-5 w-5 h-5 border-none"
                     />

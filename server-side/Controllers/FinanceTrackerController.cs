@@ -1,14 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using server_side.Context;
 using server_side.Models;
+using server_side.Models.DTO;
 
 namespace server_side.Controllers
 {
@@ -24,11 +18,36 @@ namespace server_side.Controllers
         }
 
         [HttpPost("AddFinanceRecord")]
-        public async Task<ActionResult>AddFinanceRecord([FromBody] FinanceRecord financeRecord){
+        public async Task<ActionResult>AddFinanceRecord([FromBody] FinanceRecordDTO financeRecord){
+            var category = await _context.Categories.FirstOrDefaultAsync((c)=>c.Name == financeRecord.Category && c.HexColor == financeRecord.HexColor);
 
-            var userExists = await _context.Users.AnyAsync(u => u.Id == financeRecord.UserId);
+            if (category == null){
+                var newCategory = new Category{
+                    UserId = int.Parse(financeRecord.UserId),
+                    Name = financeRecord.Category,
+                    HexColor = financeRecord.HexColor,
+                };
+                var response = await AddCategory(newCategory);
+                category = await _context.Categories.FirstOrDefaultAsync((c)=>c.Name == financeRecord.Category && c.HexColor == financeRecord.HexColor);
+                Console.WriteLine(response);
+                }
 
-            await _context.FinanceRecords.AddAsync(financeRecord);
+            if (category == null)  // Double-check if the category is still null after attempting to create it
+            {
+                return BadRequest("Category could not be found or created.");
+            }
+            Console.WriteLine("ok");
+
+            var record = new FinanceRecord
+            {
+                UserId = int.Parse(financeRecord.UserId),
+                Amount = float.Parse(financeRecord.Amount),
+                Currency = financeRecord.Currency,
+                IsProfit = bool.Parse(financeRecord.IsProfit),
+                CategoryId = category.Id
+            };
+
+            await _context.FinanceRecords.AddAsync(record);
             await _context.SaveChangesAsync();
 
             return Ok();
@@ -56,7 +75,7 @@ namespace server_side.Controllers
             }
 
             var data = await _context.Categories
-            .FirstOrDefaultAsync(c => c.Name == category.Name && category.UserId == c.UserId);
+            .FirstOrDefaultAsync(c => c.Name == category.Name && category.UserId == c.UserId && c.HexColor == category.HexColor);
 
             if(data != null) return BadRequest("The same category already exists");
             
