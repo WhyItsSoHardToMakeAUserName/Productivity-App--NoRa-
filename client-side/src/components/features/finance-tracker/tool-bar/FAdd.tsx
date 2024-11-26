@@ -10,6 +10,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { countryByCurrencyCode } from "@/constants/country-by-currency-code";
 import Currencies from "./Currencies";
+import LoadingAnimation from "@/components/ui/LoadingAnimation";
 
 const FAdd = forwardRef<HTMLDivElement, React.HTMLProps<HTMLDivElement>>((props, ref) => {
     const reduxData = useSelector((state:RootState)=> state.financeDataSlice.value)
@@ -18,6 +19,8 @@ const FAdd = forwardRef<HTMLDivElement, React.HTMLProps<HTMLDivElement>>((props,
     const categoryId = searchParams.get('categoryId');
     const currencyP = searchParams.get('currency')??'USD'
     
+    const [isLoading,setIsLoading] = useState(false);
+
     const [currency,setCurrency] = useState(currencyP);
 
     const categories = useSelector((state: RootState) => state.financeDataSlice.value.categories);
@@ -43,9 +46,24 @@ const FAdd = forwardRef<HTMLDivElement, React.HTMLProps<HTMLDivElement>>((props,
         }
     },[currencyP])
 
+    const handleSubmit = async (e:React.FormEvent)=>{
+        e.preventDefault();
+        setIsLoading(true)
+
+        try{
+            await AddFinanceData(new FormData(e.target as HTMLFormElement))
+        }
+        catch(error){
+            console.log(error)
+        }
+        
+        setIsLoading(false);
+    };
+
     return (
         <div ref={ref} {...props}>
-            <form action={AddFinanceData}>
+            {isLoading && <LoadingAnimation></LoadingAnimation>}
+            <form onSubmit={handleSubmit}>
                 <input type="text" name="userId" readOnly value={String(reduxData.token.nameid ?? 'error')} className="hidden" />
 
                 {/* Amount and Currency*/}
@@ -55,7 +73,7 @@ const FAdd = forwardRef<HTMLDivElement, React.HTMLProps<HTMLDivElement>>((props,
                     btnContent={currency}>
                         <Currencies></Currencies>
                     </Modal>
-                    <input type="text"name="amount" maxLength={20} placeholder="Amount" className={`${styles['amount-input']} ${styles.input}`} />
+                    <input type="number"name="amount" maxLength={20} placeholder="Amount" className={`${styles['amount-input']} ${styles.input}`} />
                     <input type="text" name="currency" readOnly value={currency} className="hidden"/>
                 </div>
 
