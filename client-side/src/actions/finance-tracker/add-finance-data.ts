@@ -10,7 +10,7 @@ export async function AddFinanceData(formData:FormData){
             },
             body:JSON.stringify(data)
         })    
-        return response.status
+        return response.json();
     }
     catch(error){
         console.log(error);

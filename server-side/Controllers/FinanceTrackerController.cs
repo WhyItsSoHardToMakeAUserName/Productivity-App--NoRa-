@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using server_side.Context;
@@ -18,7 +19,7 @@ namespace server_side.Controllers
         }
 
         [HttpPost("AddFinanceRecord")]
-        public async Task<ActionResult>AddFinanceRecord([FromBody] FinanceRecordDTO financeRecord){
+        public async Task<ActionResult<FinanceRecord>>AddFinanceRecord([FromBody] FinanceRecordDTO financeRecord){
             var category = await _context.Categories.FirstOrDefaultAsync((c)=>c.Name == financeRecord.Category && c.HexColor == financeRecord.HexColor);
 
             if (category == null){
@@ -29,14 +30,12 @@ namespace server_side.Controllers
                 };
                 var response = await AddCategory(newCategory);
                 category = await _context.Categories.FirstOrDefaultAsync((c)=>c.Name == financeRecord.Category && c.HexColor == financeRecord.HexColor);
-                Console.WriteLine(response);
                 }
 
             if (category == null)  // Double-check if the category is still null after attempting to create it
             {
                 return BadRequest("Category could not be found or created.");
             }
-            Console.WriteLine("ok");
 
             var record = new FinanceRecord
             {
@@ -44,13 +43,14 @@ namespace server_side.Controllers
                 Amount = float.Parse(financeRecord.Amount),
                 Currency = financeRecord.Currency,
                 IsProfit = bool.Parse(financeRecord.IsProfit),
-                CategoryId = category.Id
+                CategoryId = category.Id,
+                Category = category
             };
 
             await _context.FinanceRecords.AddAsync(record);
             await _context.SaveChangesAsync();
 
-            return Ok();
+            return Ok(record);
         }
 
         [HttpGet("GetFinanceData/{Id:int}")]

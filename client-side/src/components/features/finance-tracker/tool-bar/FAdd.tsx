@@ -6,14 +6,16 @@ import { AddFinanceData } from "@/actions/finance-tracker/add-finance-data";
 import { Modal } from "@/components/ui";
 import Categories from "./Categories";
 import { useSearchParams } from "next/navigation";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { countryByCurrencyCode } from "@/constants/country-by-currency-code";
 import Currencies from "./Currencies";
 import LoadingAnimation from "@/components/ui/LoadingAnimation";
+import { addFinanceRecord } from "@/redux/features/financeDataSlice";
 
 const FAdd = forwardRef<HTMLDivElement, React.HTMLProps<HTMLDivElement>>((props, ref) => {
     const reduxData = useSelector((state:RootState)=> state.financeDataSlice.value)
+    const dispatch = useDispatch();
 
     const searchParams = useSearchParams();
     const categoryId = searchParams.get('categoryId');
@@ -51,7 +53,11 @@ const FAdd = forwardRef<HTMLDivElement, React.HTMLProps<HTMLDivElement>>((props,
         setIsLoading(true)
 
         try{
-            await AddFinanceData(new FormData(e.target as HTMLFormElement))
+            const formData = new FormData(e.target as HTMLFormElement)
+            const response = await AddFinanceData(formData)
+            if(response){
+                dispatch(addFinanceRecord(response));
+            }
         }
         catch(error){
             console.log(error)

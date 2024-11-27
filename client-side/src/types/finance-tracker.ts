@@ -4,6 +4,7 @@ export type TFinanceRecord = {
     id:number,
     userId:number,
     categoryId:number,
+    category?:TCategory,
     amount:number,
     currency:string,
     profit:boolean

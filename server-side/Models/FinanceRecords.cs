@@ -16,8 +16,6 @@ namespace server_side.Models
         [JsonIgnore]
         public FinanceTrackerData? FinanceTrackerData{get;set;}
         public int CategoryId {get;set;}
-
-        [JsonIgnore]
         public Category? Category{get;set;}
         public required float Amount{get;set;}
         public string? Currency{get;set;} 
