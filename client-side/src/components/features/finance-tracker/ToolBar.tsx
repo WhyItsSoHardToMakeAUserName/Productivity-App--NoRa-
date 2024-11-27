@@ -1,14 +1,16 @@
 'use client'
+
 import { createPortal } from "react-dom";
 import { ChevronUp } from '@geist-ui/icons';
 import { useSearchParams ,useRouter} from "next/navigation";
-import { useEffect, useMemo,useRef, useState } from "react";
+import { useEffect,useRef, useState } from "react";
 import { useTransition, animated } from "@react-spring/web";
 import FAdd from "./tool-bar/FAdd";
 
-export function ToolBar({categories}:any) {
+export function ToolBar() {
     //prevent loading before client render
     const [isClient,setIsClient] = useState(false);
+    const [currentTool,setCurrentTool] = useState(<></>);
     useEffect(()=>(setIsClient(true)),[])
 
     const router = useRouter();
@@ -27,30 +29,32 @@ export function ToolBar({categories}:any) {
         router.replace(`?${newSearchParams.toString()}`);
     }
 
-    const currentTool = useMemo(() => {
+    useEffect(() => {
         switch (action) {
             case 'add':
-                return <FAdd ref={toolBarContent}/>;
+                setCurrentTool(<FAdd ref={toolBarContent}/>) ;
+                break;
             case 'edit':
-                return <p ref={toolBarContent}>edit</p>;
+                setCurrentTool( <p ref={toolBarContent}>edit</p>);
+                break;
             case 'journal':
-                return (
+                setCurrentTool (
                     <div ref={toolBarContent}>
                         <p>journal</p>
                         <p>journal</p>
                         <p>journal</p>
                     </div>
                 );
+                break;
             default:
-                return <p>default</p>;
+                setCurrentTool(<></>) ;
         }
     }, [action]);
-    
 
     const transition = useTransition(currentTool, {
         from:{opacity:0,height:0},
         enter: (item) => async (next) => {
-            const height = open ? toolBarContent.current?.clientHeight : 0; // Set height based on `open`
+            const height = open ? toolBarContent.current?.clientHeight : 0; 
             await next({ opacity: 1, height });
         },
         leave:{opacity:0,height:0}
@@ -62,7 +66,7 @@ export function ToolBar({categories}:any) {
         <div className="absolute w-[70vw] bottom-0 flex flex-col h-fit items-center justify-center left-1/2 -translate-x-1/2 bg-l-white-200 rounded-t-[100px]">
             <div className="cursor-pointer">
                 <div onClick={toggleOpen}>
-                <ChevronUp className={`transition-transform duration-300 ${open ? 'rotate-0' : 'rotate-180'}`} />
+                <ChevronUp className={`transition-transform duration-300 ${open ? 'rotate-180' : 'rotate-0'}`} />
 
                 </div>
             </div>
