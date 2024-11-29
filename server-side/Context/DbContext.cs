@@ -14,6 +14,7 @@ namespace server_side.Context
         public required DbSet<FinanceRecord> FinanceRecords {get;set;}
         public required DbSet<Category> Categories {get;set;}
         public required DbSet<User> Users {get;set;}
+        public required DbSet<EditLog> EditLogs {get;set;}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder){
             modelBuilder.Entity<FinanceTrackerData>()
@@ -40,7 +41,11 @@ namespace server_side.Context
                 .WithMany(r => r.FinanceRecords)
                 .HasForeignKey(r => r.UserId);
 
-            
+            modelBuilder.Entity<FinanceRecord>()
+                .HasMany((r)=>r.EditLogs)
+                .WithOne((r)=>r.financeRecord)
+                .HasForeignKey(r => r.FinanceRecordId)
+                .OnDelete(DeleteBehavior.Cascade);
             
 
             base.OnModelCreating(modelBuilder);

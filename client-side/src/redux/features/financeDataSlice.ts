@@ -5,6 +5,7 @@ import { FetchCategories } from "@/actions/finance-tracker/get-categories"
 import { TCategory, TFinanceRecord, TFinanceTrackerData } from "@/types"
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { JWTPayload } from "jose"
+import { arch } from "os"
 
 export interface financeDataState{
     value:{data:TFinanceTrackerData,categories:TCategory[],token:JWTPayload}
@@ -36,12 +37,31 @@ const financeDataSlice = createSlice({
             );
             console.log('deleting from rstore ')
         },
-        addFinanceRecord:(state,action:PayloadAction<TFinanceRecord>)=>{
-            if (action.payload.category) {
-                state.value.categories.push(action.payload.category);
+        addFinanceRecord:(state,action:PayloadAction<TFinanceRecord>)=>{   
+            const newFinanceRecord = action.payload;
+
+            const categories = state.value.categories
+            const financeRecords = state.value.data.financeRecords
+
+            const categoryIsUnique = !categories.some((c)=>c.id == newFinanceRecord.category.id);
+            const recordIsUnique = !financeRecords.some((f)=>f.id == newFinanceRecord.id);
+
+            if (categoryIsUnique) {
+                categories.push(newFinanceRecord.category);
             }
             
-            state.value.data.financeRecords.push(action.payload);
+            if(recordIsUnique){
+                console.log("unique record")
+                financeRecords.push(newFinanceRecord);
+            }
+            else{
+                console.log('not unique record')
+                const f = financeRecords.find((f)=>f.id == newFinanceRecord.id)
+                if(f!=undefined){
+                    f.amount=newFinanceRecord.amount;
+                }
+            }
+            
             console.log('added finance record')
         }
     },

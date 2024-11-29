@@ -1,10 +1,5 @@
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace server_side.Models
 {
@@ -21,5 +16,6 @@ namespace server_side.Models
         public string? Currency{get;set;} 
         public required bool IsProfit{get;set;}
         public DateTime DateCreated {get; private set;} = DateTime.UtcNow;
+        public List<EditLog> EditLogs {get; set;} = new List<EditLog>{};
     }
 }

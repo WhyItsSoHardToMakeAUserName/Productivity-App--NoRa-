@@ -63,3 +63,13 @@ input[type="radio"]:nth-of-type(2):checked + .radio-label {
     background-color: #eb6262;
     color: white;
 }
+
+
+.no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none;    /* Firefox */
+}
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none;            /* Chrome, Safari, and Edge */
+}

@@ -19,38 +19,69 @@ namespace server_side.Controllers
         }
 
         [HttpPost("AddFinanceRecord")]
-        public async Task<ActionResult<FinanceRecord>>AddFinanceRecord([FromBody] FinanceRecordDTO financeRecord){
+        public async Task<ActionResult<FinanceRecord>>AddFinanceRecord([FromBody] FinanceRecordDTO financeRecord){  
+
             var category = await _context.Categories.FirstOrDefaultAsync((c)=>c.Name == financeRecord.Category && c.HexColor == financeRecord.HexColor);
+            var amount = float.Parse(financeRecord.Amount);
+            var userId = int.Parse(financeRecord.UserId);
+            var isProfit = bool.Parse(financeRecord.IsProfit);
+
+            var record = new FinanceRecord
+                {
+                    UserId = userId,
+                    Amount = amount,
+                    Currency = financeRecord.Currency,
+                    IsProfit = isProfit,
+                    Category = category
+                };
 
             if (category == null){
+
                 var newCategory = new Category{
-                    UserId = int.Parse(financeRecord.UserId),
+                    UserId = userId,
                     Name = financeRecord.Category,
                     HexColor = financeRecord.HexColor,
                 };
                 var response = await AddCategory(newCategory);
+                if(response == null){
+                    return BadRequest("Failed to add Category");
+                }
+            
                 category = await _context.Categories.FirstOrDefaultAsync((c)=>c.Name == financeRecord.Category && c.HexColor == financeRecord.HexColor);
+
+                if(category==null){
+                    return BadRequest();
                 }
 
-            if (category == null)  // Double-check if the category is still null after attempting to create it
-            {
-                return BadRequest("Category could not be found or created.");
+                await _context.FinanceRecords.AddAsync(record);
+                await _context.SaveChangesAsync();
+                await AddDataLog(record,$"New category and record added {category.Name}");
+
+                return Ok(record);
             }
+            else{
+                FinanceRecord? dbFinanceRecord = await _context.FinanceRecords.FirstOrDefaultAsync((f)=>f.CategoryId == category.Id && (f.IsProfit == isProfit) );
 
-            var record = new FinanceRecord
-            {
-                UserId = int.Parse(financeRecord.UserId),
-                Amount = float.Parse(financeRecord.Amount),
-                Currency = financeRecord.Currency,
-                IsProfit = bool.Parse(financeRecord.IsProfit),
-                CategoryId = category.Id,
-                Category = category
-            };
+                if(dbFinanceRecord == null){
 
-            await _context.FinanceRecords.AddAsync(record);
-            await _context.SaveChangesAsync();
+                    record.CategoryId = category.Id;
 
-            return Ok(record);
+                    await _context.FinanceRecords.AddAsync(record);
+                    await _context.SaveChangesAsync();
+                    await AddDataLog(record,$"New record created {category.Name} ");
+
+                    return Ok(record);
+                }
+                else{
+                    dbFinanceRecord.Amount += amount;
+
+                    await _context.SaveChangesAsync();
+                    await AddDataLog(dbFinanceRecord,$"Added {amount} {dbFinanceRecord.Currency} to the {dbFinanceRecord.Category?.Name}");
+
+                    return Ok(dbFinanceRecord);
+                }
+
+            }
         }
 
         [HttpGet("GetFinanceData/{Id:int}")]
@@ -60,7 +91,7 @@ namespace server_side.Controllers
             var data = await _context.FinanceTrackerData
             .Include(f => f.FinanceRecords)
             .Where(d => d.UserId == Id)
-            .FirstOrDefaultAsync();
+                        .FirstOrDefaultAsync();
 
             if (data == null) return NotFound();
             return data;
@@ -104,5 +135,21 @@ namespace server_side.Controllers
             await _context.SaveChangesAsync();
 
             return NoContent();
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> AddDataLog(FinanceRecord record,string log){
+            var response = await _context.FinanceRecords.FirstOrDefaultAsync((f)=>f.CategoryId == record.CategoryId && f.IsProfit == record.IsProfit);
+
+            if(response == null) return BadRequest();
+
+            var editLog = new EditLog
+        {
+            Log = log,
+            FinanceRecordId = response.Id,
+        };
+            await _context.EditLogs.AddAsync(editLog);
+            await _context.SaveChangesAsync();
+            return Ok();
         }
 }}

@@ -4,10 +4,16 @@ export type TFinanceRecord = {
     id:number,
     userId:number,
     categoryId:number,
-    category?:TCategory,
+    category:TCategory,
     amount:number,
     currency:string,
-    profit:boolean
+    isProfit:boolean,
+    dateCreated:string,
+    dateEdited:TEditLog[]
+}
+type TEditLog = {
+    log:string
+    dateEdited:string
 }
 
 export type TFinanceTrackerData={

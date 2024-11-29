@@ -55,6 +55,7 @@ const FAdd = forwardRef<HTMLDivElement, React.HTMLProps<HTMLDivElement>>((props,
         try{
             const formData = new FormData(e.target as HTMLFormElement)
             const response = await AddFinanceData(formData)
+            console.log(response);
             if(response){
                 dispatch(addFinanceRecord(response));
             }
@@ -92,7 +93,7 @@ const FAdd = forwardRef<HTMLDivElement, React.HTMLProps<HTMLDivElement>>((props,
                     <span><Circle></Circle></span>
                     <span className="flex-grow h-[1px] bg-black mx-2"></span>
 
-                    <input id="expense" type="radio" name="isProfit" className="hidden" />
+                    <input id="expense" type="radio" value='false' name="isProfit" className="hidden" />
                     <label htmlFor="expense" className={`${styles['radio-label']}`}> Expense </label>
                 </div>
 

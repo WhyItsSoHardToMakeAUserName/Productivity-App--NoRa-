@@ -6,6 +6,8 @@ import { useSearchParams ,useRouter} from "next/navigation";
 import { useEffect,useRef, useState } from "react";
 import { useTransition, animated } from "@react-spring/web";
 import FAdd from "./tool-bar/FAdd";
+import FEdit from "./tool-bar/FEdit";
+import FJournal from "./tool-bar/FJournal";
 
 export function ToolBar() {
     //prevent loading before client render
@@ -35,15 +37,10 @@ export function ToolBar() {
                 setCurrentTool(<FAdd ref={toolBarContent}/>) ;
                 break;
             case 'edit':
-                setCurrentTool( <p ref={toolBarContent}>edit</p>);
+                setCurrentTool( <FEdit ref={toolBarContent}></FEdit>);
                 break;
             case 'journal':
-                setCurrentTool (
-                    <div ref={toolBarContent}>
-                        <p>journal</p>
-                        <p>journal</p>
-                        <p>journal</p>
-                    </div>
+                setCurrentTool ( <FJournal></FJournal>
                 );
                 break;
             default:
