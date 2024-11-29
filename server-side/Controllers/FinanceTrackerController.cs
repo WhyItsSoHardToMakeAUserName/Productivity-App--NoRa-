@@ -90,8 +90,9 @@ namespace server_side.Controllers
 
             var data = await _context.FinanceTrackerData
             .Include(f => f.FinanceRecords)
+            .ThenInclude(f=>f.EditLogs)
             .Where(d => d.UserId == Id)
-                        .FirstOrDefaultAsync();
+            .FirstOrDefaultAsync();
 
             if (data == null) return NotFound();
             return data;

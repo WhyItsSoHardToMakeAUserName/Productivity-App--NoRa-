@@ -9,9 +9,10 @@ export type TFinanceRecord = {
     currency:string,
     isProfit:boolean,
     dateCreated:string,
-    dateEdited:TEditLog[]
+    editLogs:TEditLog[]
 }
 type TEditLog = {
+    id:number,
     log:string
     dateEdited:string
 }

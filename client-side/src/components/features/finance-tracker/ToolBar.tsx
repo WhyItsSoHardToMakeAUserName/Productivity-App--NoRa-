@@ -40,7 +40,7 @@ export function ToolBar() {
                 setCurrentTool( <FEdit ref={toolBarContent}></FEdit>);
                 break;
             case 'journal':
-                setCurrentTool ( <FJournal></FJournal>
+                setCurrentTool ( <FJournal ref={toolBarContent}></FJournal>
                 );
                 break;
             default:
