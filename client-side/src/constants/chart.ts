@@ -1,4 +1,4 @@
-import { Chart, Legend } from "chart.js";
+import { fredoka } from "@/components/ui";
 
 export const chartOptions = {
   plugins: {
@@ -15,6 +15,9 @@ export const chartOptions = {
     legend:{
       labels:{
         usePointStyle: true, // Makes each legend item circular by default
+        font:{
+          family:fredoka.style.fontFamily,
+        }
       }
     }
   },

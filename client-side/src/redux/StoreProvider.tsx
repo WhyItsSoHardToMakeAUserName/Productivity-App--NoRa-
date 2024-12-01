@@ -5,6 +5,7 @@ import { makeStore, AppStore } from './store';
 import { SetInitialFinanceDataAsync, setToken } from './features/financeDataSlice';
 import { decodeJwt } from 'jose';
 import { CustomJWTPayload } from '@/types';
+import LoadingAnimation from '@/components/ui/LoadingAnimation';
 
 export default function StoreProvider({
   children,
@@ -14,6 +15,7 @@ export default function StoreProvider({
   token?: string;
 }) {
   const [isStoreReady, setIsStoreReady] = useState(false);
+  const [isClient,setIsClient] = useState(false)
   const storeRef = useRef<AppStore | null>(null);
 
   // Initialize store if not already initialized
@@ -21,7 +23,12 @@ export default function StoreProvider({
     storeRef.current = makeStore();
   }
 
+  useEffect(()=>{
+    setIsClient(true);
+  },[])
+
   useEffect(() => {
+    
     if (storeRef.current && token) {
       const jwtPayload = decodeJwt(token) as CustomJWTPayload;
       storeRef.current.dispatch(setToken(jwtPayload)); // Dispatch token info to the store
@@ -35,7 +42,9 @@ export default function StoreProvider({
   }, [token]);
 
   // Return the provider only when the store is ready
-  if (!isStoreReady) return null;
+  if (!isStoreReady && isClient) return <LoadingAnimation></LoadingAnimation>;
 
-  return <Provider store={storeRef.current}>{children}</Provider>;
+  return <Provider store={storeRef.current}>
+    {children}
+    </Provider>;
 }

@@ -8,7 +8,7 @@ import { JWTPayload } from "jose"
 import { arch } from "os"
 
 export interface financeDataState{
-    value:{data:TFinanceTrackerData,categories:TCategory[],token:JWTPayload}
+    value:{data:TFinanceTrackerData,categories:TCategory[],token:JWTPayload,currencies:string[]}
 }
 const initialState:financeDataState={
     value: {
@@ -19,7 +19,8 @@ const initialState:financeDataState={
             financeRecords: [], // Start with an empty list
         },
         categories: [], // Start with an empty categories array
-        token:{}
+        token:{},
+        currencies:[],
     },
 }
 
@@ -72,17 +73,18 @@ const financeDataSlice = createSlice({
         builder.addCase(SetInitialFinanceDataAsync.fulfilled,(state,action)=>{
             state.value.data = action.payload.data;
             state.value.categories = action.payload.categories;
+            state.value.currencies = action.payload.currencies;
         })
     }
 })
-export const SetInitialFinanceDataAsync = createAsyncThunk<{data:TFinanceTrackerData,categories:TCategory[]},number>(
+export const SetInitialFinanceDataAsync = createAsyncThunk<{data:TFinanceTrackerData,categories:TCategory[],currencies:string[]},number>(
     'fetchFinanceData',
     async (userId:number)=>{
         const data:TFinanceTrackerData = await FetchFinanceData(userId);
         const categories:TCategory[] = await FetchCategories(data.userId);
+        const currencies:string[] = Array.from(new Set(data.financeRecords.map((r)=>r.currency).filter(currency => currency)));
 
-
-        return {data:data,categories:categories};
+        return {data:data,categories:categories,currencies:currencies};
     }
 ) 
 export const {setToken,RdeleteCategory,addFinanceRecord} = financeDataSlice.actions;
