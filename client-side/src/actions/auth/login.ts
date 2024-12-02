@@ -36,8 +36,7 @@ export async function Login(formData: FormData) {
     });
     
     return 200
-  } catch (error) {
-    console.log(error);
+  } catch {
+    return 500
 }
-return 500
 }

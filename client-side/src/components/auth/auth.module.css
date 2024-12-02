@@ -12,16 +12,22 @@
     text-decoration: none;
     outline: none;
 }
+.input:focus {
+  outline: none;
+  border: none; /* Remove the border if it's applied */
+  box-shadow: none; /* Remove the focus box-shadow */
+}
 
 
 
 .submit-button{
     margin-top: 20px;
-    background-color: rgb(63, 58, 58);
+    background-color: #2563eb;
     border-radius: 9999px;
+    color: white;
 }
 .submit-button:hover{
-    background-color: rgb(70, 67, 67);
+    background-color: #2058cf;
     cursor: pointer;
 }
 

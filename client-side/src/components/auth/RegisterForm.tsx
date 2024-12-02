@@ -1,8 +1,16 @@
 import { Register } from "@/actions/auth/register";
 import styles from "./auth.module.css"
 import { useRouter } from "next/navigation";
+import { FormEvent, useState } from "react";
+import LoadingAnimation from "../ui/LoadingAnimation";
+
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/ReactToastify.css';
+
 
 export default function RegisterForm() {
+  const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
 
   const router = useRouter();
   const handleLogInClick = () => {
@@ -13,14 +21,33 @@ export default function RegisterForm() {
     router.replace(`?${params.toString()}`);
   };
   
+  const  handleRegisterEvent = async(e:FormEvent<HTMLFormElement>)=> {
+    e.preventDefault()
+
+    setIsLoading(true);
+    const response = await Register(new FormData(e.currentTarget));
+
+    if(response == 200){
+      toast.success('registered')
+    }
+    else{
+      toast.error('User with this email already exists. Try logging in')
+    }
+
+    setIsLoading(false);
+  }
+
   return (
     <>
+      <ToastContainer />
+      {isLoading && <LoadingAnimation></LoadingAnimation>}
+
       <div className="flex flex-col justify-center items-center">
         <h1 className="text-2xl">Create your account</h1>
         <p className="text-gray-600">Ready to get productive?</p>
       </div>
 
-      <button className={`${styles.button} my-[20px] py-[3px] text-black`}>Login with Google</button>
+      <button onClick={()=>{toast.warning("OAuth is currently unavailable")}} className={`${styles.button} my-[20px] py-[3px] text-black`}>Register with Google</button>
 
       <div className={styles['line-container']}>
         <span className={styles.line}></span>
@@ -28,15 +55,30 @@ export default function RegisterForm() {
         <span className={styles.line}></span>
       </div>
 
-      <form action={Register} className={`${styles.form}`}>
+      <form onSubmit={handleRegisterEvent} className={`${styles.form}`}>
         <label htmlFor="username">Name</label>
-        <input type="text" name="username" className={styles.input} placeholder="Enter your name"/>
+        <input type="text" name="username" required className={styles.input} placeholder="Enter your name"/>
 
         <label htmlFor="email">Email</label>
-        <input type="email" name="email" className={styles.input} placeholder="Enter your email"/>
+        <input type="email" name="email" required className={styles.input} placeholder="Enter your email"/>
 
         <label htmlFor="password">Password</label>
-        <input type="text" name="password" className={styles.input} placeholder="Enter your password"/>
+        <div className={`${styles.input} flex justify-between`}>
+          <input
+            type={showPassword ? "text" : "password"}
+            name="password"
+            className="outline-none flex-grow overflow-y-scroll"
+            required
+            placeholder="Enter your password"
+          />
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className="px-[7px]"
+          >
+            {showPassword?"Show":"Hide"}
+          </button>
+        </div>
 
         <button type="submit" className={styles['submit-button']}>Register</button>
       </form>

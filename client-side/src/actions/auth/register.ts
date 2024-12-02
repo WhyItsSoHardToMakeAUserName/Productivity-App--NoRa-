@@ -19,8 +19,10 @@ export async function Register(formData:FormData){
                 },
                 body:JSON.stringify(user)
             }
-        )    }
-    catch(error){
-        console.error(error);
+        )    
+        return response.status
+    }
+    catch{
+        return 500
     }
 }
