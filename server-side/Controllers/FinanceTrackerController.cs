@@ -53,6 +53,8 @@ namespace server_side.Controllers
                     return BadRequest();
                 }
 
+                record.Category = category;
+
                 await _context.FinanceRecords.AddAsync(record);
                 await _context.SaveChangesAsync();
                 await AddDataLog(record,$"New category and record added {category.Name}");

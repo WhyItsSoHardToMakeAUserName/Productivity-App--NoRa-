@@ -43,9 +43,12 @@ const financeDataSlice = createSlice({
 
             const categories = state.value.categories
             const financeRecords = state.value.data.financeRecords
+            const currencies = state.value.currencies
 
             const categoryIsUnique = !categories.some((c)=>c.id == newFinanceRecord.category.id);
             const recordIsUnique = !financeRecords.some((f)=>f.id == newFinanceRecord.id);
+            const currencyIsUnique = !currencies.some((c)=>c == newFinanceRecord.currency)
+
 
             if (categoryIsUnique) {
                 categories.push(newFinanceRecord.category);
@@ -54,6 +57,7 @@ const financeDataSlice = createSlice({
             if(recordIsUnique){
                 console.log("unique record")
                 financeRecords.push(newFinanceRecord);
+                
             }
             else{
                 console.log('not unique record')
@@ -62,9 +66,13 @@ const financeDataSlice = createSlice({
                     f.amount=newFinanceRecord.amount;
                 }
             }
+
+            if(currencyIsUnique){
+                currencies.push(newFinanceRecord.currency)
+            }
             
             console.log('added finance record')
-        }
+        },
     },
     extraReducers:(builder)=>{
         builder.addCase(SetInitialFinanceDataAsync.pending,()=>{
