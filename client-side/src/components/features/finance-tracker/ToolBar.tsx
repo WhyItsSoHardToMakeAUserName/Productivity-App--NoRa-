@@ -60,7 +60,7 @@ export function ToolBar() {
     if(!isClient) return null
 
     return createPortal(
-        <div className="absolute w-[70vw] bottom-0 flex flex-col h-fit items-center justify-center left-1/2 -translate-x-1/2 bg-l-white-200 rounded-t-[100px]">
+        <div className="absolute w-[95vw] md:w-[70vw] bottom-0 flex flex-col h-fit items-center justify-center left-1/2 -translate-x-1/2 bg-l-white-200 rounded-t-[100px]">
             <div className="cursor-pointer">
                 <div onClick={toggleOpen}>
                 <ChevronUp className={`transition-transform duration-300 ${open ? 'rotate-180' : 'rotate-0'}`} />
@@ -69,7 +69,7 @@ export function ToolBar() {
             </div>
                 {transition((styles,item) => (
                 <animated.div style={styles} className="w-full flex justify-center">
-                    <div className="w-[60%]">
+                    <div className="w-[80%] sm:w-[60%]">
                         {item}
                     </div>
                 </animated.div>

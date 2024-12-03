@@ -56,16 +56,17 @@ export function Chart() {
       const {ctx} = chart;
       
       ctx.save();
+
       const xCoord = chart.getDatasetMeta(0).data[0].x;
       const yCoord = chart.getDatasetMeta(0).data[0].y;
-      ctx.font = ` ${yCoord/10}px ${fredoka.style.fontFamily}`;
+
+
+      
+      ctx.font = `${(yCoord)/10}px ${fredoka.style.fontFamily}`;
       ctx.textAlign = 'center';
       ctx.textBaseline = "middle";
 
       ctx.fillText(chartCenterText,xCoord,yCoord)
-      if(isProfit==null){
-        ctx.fillText("All",xCoord,yCoord-50)
-      }
 
       ctx.restore();
     }};
@@ -94,9 +95,12 @@ export function Chart() {
   }
 
   return (
-    <div className="flex flex-col max-w-full justify-center w-full h-[50vh] relative m-auto">
+    <div className="pt-10">
       <Filters setIsProfit={setIsProfit} onCurrencySelect={setCurrentCurrency} ></Filters>
-      <Doughnut data={chartData} options={chartOptions}/>
+      
+      <div className="relative h-[80vh] w-[80vw]">
+        <Doughnut data={chartData} options={chartOptions}/>
+      </div>
     </div>
   );
 }

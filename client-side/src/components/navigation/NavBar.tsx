@@ -22,8 +22,8 @@ export default function NavBar() {
   };
 
   return (
-    <div className="pt-1 px-1 flex items-center justify-between">
-      <p className='flex text-2xl'><Box size={35}></Box> Nora</p>
+    <div className="pt-2 px-2 flex items-center justify-between">
+      <p className='flex items-center text-2xl'><Box size={50}></Box> Nora</p>
       <div className='flex items-center gap-2'>
         <Moon size={30}></Moon>
         <RoundLink href=''> <Users size={35}></Users></RoundLink>

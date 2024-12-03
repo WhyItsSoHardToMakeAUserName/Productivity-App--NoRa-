@@ -44,15 +44,15 @@ export function SideBar(){
 
     return(
         isClient && createPortal(
-        <div className={`absolute flex flex-col right-0 bg-l-white-200 h-fit rounded-full mx-2 px-[15px] py-[15px] top-1/2 -translate-y-1/2 gap-1
+        <div className={`absolute flex flex-row md:flex-col top-0 right-1/2 translate-x-1/2 md:translate-x-0 md:right-0 bg-l-white-200 h-fit rounded-full m-2 md:px-[15px] md:pt-[15px] md:py-[15px] md:top-1/2 md:-translate-y-1/2 gap-1
             
         `}
             onMouseEnter={()=>setIsExpanded(true)}
             onMouseLeave={()=>setIsExpanded((false))}
         >
             {
-                actions.map((action)=>
-                    <button key={action.param} onClick={(event)=>setSearchParam(action.param,event)} className={`bg-l-white-200 hover:bg-l-white-300 rounded-full duration-500 py-[15px] ${IsExpanded? 'w-[54px] px-[15px]':'w-0'} overflow-hidden`}>
+                actions.map((action,index)=>
+                    <button key={index} onClick={(event)=>setSearchParam(action.param,event)} className={`bg-l-white-200 hover:bg-l-white-300 rounded-full duration-500 p-[15px] overflow-hidden`}>
                         {action.element}
                     </button>
                 )
