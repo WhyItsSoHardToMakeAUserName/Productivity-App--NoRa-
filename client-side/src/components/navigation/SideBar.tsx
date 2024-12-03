@@ -75,7 +75,7 @@ export default function SideBar(){
                 <div className='flex justify-center items-center'>
                     <button onClick={()=>{
                         setMobileIsExpanded(!mobileIsExpanded);
-                    }} className={`block md:hidden  md:ml-[100px]  bg-l-white-200 p-2 h-auto rounded-full duration-300 ${mobileIsExpanded?"rotate-180 ml-[100px]":"ml-[10px]"}`}><ChevronRight></ChevronRight></button>
+                    }} className={`block md:hidden  md:ml-[100px]  bg-l-white-200 p-2 h-auto rounded-full duration-300 ${mobileIsExpanded?"rotate-180 ml-[100px]":"ml-[10px]"} ${isExpanded&& "ml-[220px]"}`}><ChevronRight></ChevronRight></button>
                 </div>
             </section>
             ,
