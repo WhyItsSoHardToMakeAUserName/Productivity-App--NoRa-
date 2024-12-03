@@ -1,6 +1,8 @@
 import { fredoka } from "@/components/ui";
 
 export const chartOptions = {
+  responsive:true,
+  maintainAspectRatio:false,
   plugins: {
     tooltip: {
       enabled: true,

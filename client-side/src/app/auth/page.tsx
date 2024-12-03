@@ -11,8 +11,8 @@ export default function Page(){
         { name: 'Mark J', review: 'The perfect tool for managing tasks and staying productive. My workflow has improved drastically!' },
       ];
     return(
-    <div className='h-screen flex items-center pl-[3vh]'>
-        <div className='p-4 h-[94vh] w-[50vw] bg-blue-600 rounded-3xl flex items-center flex-col text-white'>
+    <div  className='min-h-[600px] h-screen flex flex-row items-center justify-center md:pl-[3vh]'>
+        <div className='p-4 h-[94%] w-[50vw] bg-blue-600 rounded-3xl  hidden md:flex items-center flex-col text-white'>
             <div className=" h-1/4 top-0 flex  items-start">
                 <div className="flex items-center">
                     <Box size={50}></Box>
@@ -31,7 +31,11 @@ export default function Page(){
 
             </div>
         </div>
-        <div className="flex justify-center items-center w-[50vw] flex-col">
+        <div className="h-full flex justify-center items-center md:w-[50vw] flex-col">
+            <div className="absolute top-0 mt-[5%] flex md:hidden justify-center items-center">
+            <Box size={50} className=" "></Box>
+                <p className="text-3xl">NoRa</p>
+            </div>
             <AuthForm></AuthForm>
         </div>
     </div>

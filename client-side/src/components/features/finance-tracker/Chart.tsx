@@ -94,7 +94,7 @@ export function Chart() {
   }
 
   return (
-    <div className="flex flex-col max-w-full justify-center w-full">
+    <div className="flex flex-col max-w-full justify-center w-full h-[50vh] relative m-auto">
       <Filters setIsProfit={setIsProfit} onCurrencySelect={setCurrentCurrency} ></Filters>
       <Doughnut data={chartData} options={chartOptions}/>
     </div>

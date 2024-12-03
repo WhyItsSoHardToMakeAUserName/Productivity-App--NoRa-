@@ -4,10 +4,10 @@ import SideBar from '@/components/navigation/SideBar';
 export default function Navigation({children}:{ children: React.ReactNode }){
 
     return(
-        <div>
+        <div className='max-h-screen overflow-hidden'>
             <NavBar></NavBar>
             <SideBar></SideBar>
-            <div className='min-h-screen flex justify-center'>
+            <div className='h-screen flex justify-center'>
                 {children}
             </div>
         </div>
