@@ -2,7 +2,7 @@
 
 import { FetchFinanceData } from "@/actions/finance-tracker/fetch-finance-data"
 import { FetchCategories } from "@/actions/finance-tracker/get-categories"
-import { TCategory, TFinanceRecord, TFinanceTrackerData } from "@/types"
+import { FinanceRecordUpdateDTO, TCategory, TFinanceRecord, TFinanceTrackerData } from "@/types"
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { JWTPayload } from "jose"
 import { arch } from "os"
@@ -37,6 +37,24 @@ const financeDataSlice = createSlice({
                 (c)=> c.id != categoryId
             );
             console.log('deleting from rstore ')
+        },
+        RdeleteRecord:(state,action)=>{
+            const recordId = action.payload;
+            state.value.data.financeRecords = state.value.data.financeRecords.filter(
+                (f)=> f.id != recordId
+            );
+            console.log('deleting from rstore ')
+        },
+        RUpdateRecord:(state,action:PayloadAction<FinanceRecordUpdateDTO>)=>{
+            const record = state.value.data.financeRecords.find((f)=>f.id == action.payload.id);
+
+            console.log(record)
+
+            if(record){
+                record.amount = action.payload.amount
+            }
+            
+            console.log("update value")
         },
         addFinanceRecord:(state,action:PayloadAction<TFinanceRecord>)=>{   
             const newFinanceRecord = action.payload;
@@ -95,6 +113,6 @@ export const SetInitialFinanceDataAsync = createAsyncThunk<{data:TFinanceTracker
         return {data:data,categories:categories,currencies:currencies};
     }
 ) 
-export const {setToken,RdeleteCategory,addFinanceRecord} = financeDataSlice.actions;
+export const {setToken,RdeleteCategory,RdeleteRecord,addFinanceRecord,RUpdateRecord} = financeDataSlice.actions;
 
 export default financeDataSlice.reducer

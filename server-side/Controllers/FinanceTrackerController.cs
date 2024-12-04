@@ -1,4 +1,3 @@
-using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using server_side.Context;
@@ -98,6 +97,36 @@ namespace server_side.Controllers
 
             if (data == null) return NotFound();
             return data;
+        }
+
+        [HttpDelete("DeleteFinanceRecord/{Id:int}")]
+        public async Task<ActionResult> DeleteFinanceRecord(int Id)
+        {
+            var record = await _context.FinanceRecords.FindAsync(Id);
+            
+            if (record == null) return NotFound();
+
+            _context.FinanceRecords.Remove(record);
+
+            await _context.SaveChangesAsync();
+            return Ok();
+        }
+
+        [HttpPost("UpdateFinanceRecord")]
+        public async Task<ActionResult> UpdateFinanceRecord([FromBody] FinanceRecordUpdateDTO newFinanceRecord){
+            Console.WriteLine(newFinanceRecord);
+            var existingRecord = await _context.FinanceRecords.FirstOrDefaultAsync(r => r.Id == newFinanceRecord.Id);
+
+            if (existingRecord == null){
+                return NotFound();
+            }
+
+            existingRecord.Amount = newFinanceRecord.Amount;
+
+            _context.FinanceRecords.Update(existingRecord);
+            await _context.SaveChangesAsync();
+
+            return Ok();
         }
 
         [HttpPost("AddCategory")]

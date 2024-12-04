@@ -2,12 +2,13 @@
 import { createPortal } from "react-dom";
 import React, {ReactElement, useState } from "react";
 interface Prop{
+    onClick?:Function,
     children:ReactElement,
     buttonStyle:string,
     btnContent:ReactElement|string
 }
 
-export function Modal({children,buttonStyle,btnContent}:Prop){
+export function Modal({onClick,children,buttonStyle,btnContent}:Prop){
     const [open, setOpen] = useState(false)
 
     const show = ()=>{
@@ -19,7 +20,7 @@ export function Modal({children,buttonStyle,btnContent}:Prop){
 
     return(
         <>
-            <button onClick={show} type="button" className={buttonStyle}>{btnContent}</button>
+            <button onClick={()=>{show();if(onClick!=undefined){onClick()}}} type="button" className={buttonStyle}>{btnContent}</button>
             {open&&  createPortal(
                     <div className="fixed inset-0 flex justify-center items-center h-screen w-screen">
                         {/* transparent background */}
@@ -28,8 +29,7 @@ export function Modal({children,buttonStyle,btnContent}:Prop){
                             hide();
                         }} className="absolute inset-0  bg-slate-700 opacity-50 z-10"></div>
                         <div className="z-20 w-1/2 h-auto">
-                            {React.cloneElement(children, { hide })}
-
+                            {React.cloneElement(children,{hide})}
                         </div>
                 
                     </div>

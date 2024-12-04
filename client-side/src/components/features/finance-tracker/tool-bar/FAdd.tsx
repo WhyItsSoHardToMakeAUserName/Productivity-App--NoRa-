@@ -55,7 +55,6 @@ const FAdd = forwardRef<HTMLDivElement, React.HTMLProps<HTMLDivElement>>((props,
         try{
             const formData = new FormData(e.target as HTMLFormElement)
             const response = await AddFinanceData(formData)
-            console.log(response);
             if(response){
                 dispatch(addFinanceRecord(response));
             }

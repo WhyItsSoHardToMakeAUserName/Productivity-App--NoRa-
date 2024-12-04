@@ -35,3 +35,8 @@ export interface CustomJWTPayload extends JWTPayload{
     nameid: string;
     email: string;
 }
+
+export type FinanceRecordUpdateDTO = {
+    id:number;
+    amount:number;
+}
