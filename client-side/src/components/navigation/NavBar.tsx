@@ -2,24 +2,9 @@
 
 import { Box ,Users,Moon} from '@geist-ui/icons'
 
-import { useRouter } from "next/navigation";
 import { RoundLink } from '../ui';
 
 export default function NavBar() {
-  const router = useRouter();
-
-  const handle = async () => {
-    const response = await fetch("/api/auth/logout", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    if (!response.ok) console.log("API ERROR");
-
-    router.push('/auth')
-  };
 
   return (
     <div className="absolute w-screen pt-2 px-2 flex items-center justify-between">

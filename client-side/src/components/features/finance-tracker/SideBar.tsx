@@ -12,7 +12,6 @@ type action = {
 
 export function SideBar(){
     const router = useRouter();
-    const [IsExpanded,setIsExpanded] = useState(false);
     const [isClient, setIsClient] = useState(false);
 
     const actions:action[] = [
@@ -47,8 +46,6 @@ export function SideBar(){
         <div className={`absolute flex flex-row md:flex-col top-0 right-1/2 translate-x-1/2 md:translate-x-0 md:right-0 bg-l-white-200 h-fit rounded-full m-2 md:px-[15px] md:pt-[15px] md:py-[15px] md:top-1/2 md:-translate-y-1/2 gap-1
             
         `}
-            onMouseEnter={()=>setIsExpanded(true)}
-            onMouseLeave={()=>setIsExpanded((false))}
         >
             {
                 actions.map((action,index)=>

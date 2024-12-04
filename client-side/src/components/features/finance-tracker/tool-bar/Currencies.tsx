@@ -2,14 +2,18 @@ import { useState } from "react";
 import { countryByCurrencyCode } from "@/constants/country-by-currency-code";
 import { useRouter, useSearchParams } from "next/navigation";
 
-export default function Currencies({ hide }: any) {
+type Props = {
+  hide?:()=>void
+}
+
+export default function Currencies({ hide }: Props) {
   const router = useRouter();
   const searchParam = useSearchParams();
 
   const [searchQuery, setSearchQuery] = useState("");
 
   const setCurrencySearchParam = (currency: string) => {
-    const newSearchParams = new URLSearchParams(searchParam as any);
+    const newSearchParams = new URLSearchParams(searchParam);
     newSearchParams.set("currency", currency);
     router.replace(`?${newSearchParams}`);
   };
@@ -47,7 +51,8 @@ export default function Currencies({ hide }: any) {
                 <div
                   onClick={() => {
                     setCurrencySearchParam(currencyCode);
-                    hide();
+                    if(hide!=undefined)hide();
+                    
                   }}
                   className="w-[90%] flex px-2 py-2 rounded-full cursor-pointer bg-white hover:bg-l-white-200 active:bg-l-white-300 items-center justify-between"
                 >

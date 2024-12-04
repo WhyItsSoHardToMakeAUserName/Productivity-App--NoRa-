@@ -82,7 +82,7 @@ export default function LoginForm() {
       </form>
 
       <div className={styles.redirect}>
-        <p>Don't have an account?</p>
+        <p>Don&apos;t have an account?</p>
         <button className={`${styles['link-button']} ml-1`} onClick={handleSignUpClick}>Sign up</button>
       </div>
     </>

@@ -24,7 +24,7 @@ export function Chart() {
   let chartCenterText = "mock";
 
   if(isProfit == null){
-    var totalAmount = filteredRecords.reduce(((total,record)=>{
+    const totalAmount = filteredRecords.reduce(((total,record)=>{
       if(record.isProfit) return total+record.amount
       else return total-record.amount;
       }),0);

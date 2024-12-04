@@ -8,8 +8,6 @@ import { toast, ToastContainer } from "react-toastify";
 import { RdeleteRecord } from "@/redux/features/financeDataSlice";
 import LoadingAnimation from "@/components/ui/LoadingAnimation";
 import { Modal } from "@/components/ui";
-import { UpdateFinanceRecord } from "@/actions/finance-tracker/update-finance-data";
-import { any } from "zod";
 import FinanceRecordUpdateForm from "@/components/modals/FinanceRecordUpdateForm";
 
 // Wrap FEdit with forwardRef
@@ -81,5 +79,7 @@ const FEdit = forwardRef<HTMLDivElement,React.HTMLProps<HTMLDivElement>>((props,
 
     );
 });
+
+FEdit.displayName = 'FEdit'
 
 export default FEdit;

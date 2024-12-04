@@ -18,7 +18,7 @@ export function ToolBar() {
     const router = useRouter();
     const searchParam = useSearchParams();
 
-    var action = searchParam.get('action');
+    let action = searchParam.get('action');
     const open =  searchParam.get('open') === 'true';    
 
     if(!open) {action = ''};
@@ -50,7 +50,7 @@ export function ToolBar() {
 
     const transition = useTransition(currentTool, {
         from:{opacity:0,height:0},
-        enter: (item) => async (next) => {
+        enter: () => async (next) => {
             const height = open ? toolBarContent.current?.clientHeight : 0; 
             await next({ opacity: 1, height });
         },

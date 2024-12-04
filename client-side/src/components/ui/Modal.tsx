@@ -2,7 +2,7 @@
 import { createPortal } from "react-dom";
 import React, {ReactElement, useState } from "react";
 interface Prop{
-    onClick?:Function,
+    onClick?:()=>void,
     children:ReactElement,
     buttonStyle:string,
     btnContent:ReactElement|string

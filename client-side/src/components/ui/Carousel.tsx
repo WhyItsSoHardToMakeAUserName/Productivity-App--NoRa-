@@ -51,7 +51,7 @@ export default function Carousel({ reviews }: { reviews: Review[] }) {
         >
           {reviews.map((review, index) => (
             <div key={index} className="min-w-full flex justify-center items-center text-center p-5">
-              <p className="text-xl italic">"{review.review}"</p>
+              <p className="text-xl italic">&quot;{review.review}&quot;</p>
             </div>
           ))}
         </animated.div>

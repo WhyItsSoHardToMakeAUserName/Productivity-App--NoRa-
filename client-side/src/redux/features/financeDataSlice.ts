@@ -5,7 +5,6 @@ import { FetchCategories } from "@/actions/finance-tracker/get-categories"
 import { FinanceRecordUpdateDTO, TCategory, TFinanceRecord, TFinanceTrackerData } from "@/types"
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { JWTPayload } from "jose"
-import { arch } from "os"
 
 export interface financeDataState{
     value:{data:TFinanceTrackerData,categories:TCategory[],token:JWTPayload,currencies:string[]}

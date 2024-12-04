@@ -135,4 +135,5 @@ const FAdd = forwardRef<HTMLDivElement, React.HTMLProps<HTMLDivElement>>((props,
     );
 });
 
+FAdd.displayName = "FAdd"
 export default FAdd;

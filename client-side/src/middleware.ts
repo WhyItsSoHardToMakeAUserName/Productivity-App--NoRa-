@@ -22,7 +22,7 @@ export async function middleware(request: NextRequest){
     if(!secret) throw Error("Jwt token key is not configured in the local environment.")
 
     try{
-        const a =  await jose.jwtVerify(token,new TextEncoder().encode(secret))
+        await jose.jwtVerify(token,new TextEncoder().encode(secret))
 
         if(request.nextUrl.pathname === "/auth"){
             return NextResponse.redirect(new URL('/home',request.url));

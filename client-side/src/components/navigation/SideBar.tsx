@@ -1,5 +1,5 @@
 'use client'
-import { Home ,Briefcase ,Settings, Bookmark,CheckSquare,List, ChevronRight, LogOut} from '@geist-ui/icons'
+import { Home ,Briefcase, Bookmark,CheckSquare,List, ChevronRight, LogOut} from '@geist-ui/icons'
 import { ReactElement, useEffect, useState } from 'react'
 import { createPortal } from "react-dom"
 import { usePathname } from 'next/navigation'
@@ -25,7 +25,7 @@ export default function SideBar(){
     }, []);
 
 
-    let navElements:navElement[] = [
+    const navElements:navElement[] = [
         {label:"Home",jsx:<Home color={path === '/home' && isExpanded?'f2f2f2':'252422'}></Home>,route:"/home"},
         {label:"Finance",jsx:<Briefcase color={path === '/finance-tracker' && isExpanded?'f2f2f2':'252422'}></Briefcase>,route:"/finance-tracker"},
         {label:"Task Manager",jsx:<List color={path === '/' && isExpanded?'f2f2f2':'252422'}></List>,route:"/task-manager"},

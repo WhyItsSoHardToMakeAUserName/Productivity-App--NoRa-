@@ -8,7 +8,7 @@ import { toast, ToastContainer } from "react-toastify";
 type Props = {
     setIsLoading:React.Dispatch<React.SetStateAction<boolean>>,
     financeRecord:TFinanceRecord,
-    hide?:any
+    hide?:()=>void
 }
 
 
@@ -39,7 +39,8 @@ export default function FinanceRecordUpdateForm(
                         console.log(formObject)
 
                         dispatch(RUpdateRecord(data))
-                        hide();
+                        if(hide!=undefined)hide();
+                        
                     }
                     else{
                         toast.warning("Something went wrong. Try again later")

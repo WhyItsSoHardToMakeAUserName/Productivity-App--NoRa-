@@ -1,6 +1,10 @@
 import { getRandomHexColor } from "../lib/colorGenerator";
 
-export function FinanceDataForm({hide}:any){
+type  Props = {
+    hide?:()=>void
+}
+
+export function FinanceDataForm({hide}:Props){
     return(
         <div className="fixed inset-0 flex justify-center items-center h-screen w-screen">
         {/* transparent background */}

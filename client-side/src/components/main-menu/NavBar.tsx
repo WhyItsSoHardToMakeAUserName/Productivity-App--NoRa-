@@ -2,14 +2,10 @@
 
 import { Box } from '@geist-ui/icons'
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/ReactToastify.css';
 
 export default function NavBar() {
-    const router = useRouter();
-
-
     return (
       <>
       <ToastContainer />
