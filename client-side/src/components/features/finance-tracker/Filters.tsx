@@ -18,7 +18,7 @@ export default function Filters({ onCurrencySelect, setIsProfit }: props) {
     },[Currencies])
 
     return (
-        <div className="w-full flex flex-col items-center justify-center">
+        <div className="mt-10 md:mt-0 w-full flex flex-col items-center justify-center">
             <div className="flex gap-2 mb-3">
                 {Currencies.map((c) =>
                     <button

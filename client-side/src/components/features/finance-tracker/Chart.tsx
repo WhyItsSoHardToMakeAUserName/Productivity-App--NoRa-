@@ -95,7 +95,7 @@ export function Chart() {
   }
 
   return (
-    <div className="pt-10">
+    <div className="pt-10 h-auto">
       <Filters setIsProfit={setIsProfit} onCurrencySelect={setCurrentCurrency} ></Filters>
       
       <div className="relative h-[80vh] w-[80vw]">

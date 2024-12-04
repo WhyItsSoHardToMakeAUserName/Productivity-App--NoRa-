@@ -7,7 +7,7 @@ export default function Navigation({children}:{ children: React.ReactNode }){
         <>
             <NavBar></NavBar>
             <SideBar></SideBar>
-            <div className='max-h-screen h-auto overflow-hidden flex justify-center'>
+            <div className='max-h-screen flex-auto overflow-hidden flex justify-center'>
                 {children}
             </div>
         </>
