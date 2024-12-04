@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using server_side.Models;
+using DotNetEnv;
 
 namespace server_side.Services
 {
@@ -16,11 +17,11 @@ namespace server_side.Services
     {
         var jwtSettings = configuration.GetSection("JwtSettings");
 
-        string _secretKey = jwtSettings["SecretKey"] ?? throw new ArgumentNullException("SecretKey is missing in JwtSettings");
+        string _secretKey = Environment.GetEnvironmentVariable("SECRET_KEY") ?? throw new ArgumentNullException("SecretKey is missing in env variables");
 
         Key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_secretKey));
-        _issuer = jwtSettings["Issuer"] ?? throw new ArgumentNullException("Issuer is missing in JwtSettings");
-        _audience = jwtSettings["Audience"] ?? throw new ArgumentNullException("Audience is missing in JwtSettings");
+        _issuer = Environment.GetEnvironmentVariable("ISSUER") ?? throw new ArgumentNullException("Issuer is missing in JwtSettings");
+        _audience = Environment.GetEnvironmentVariable("AUDIENCE") ?? throw new ArgumentNullException("Audience is missing in JwtSettings");
     }
         
     public string GenerateJwtToken(User user){
