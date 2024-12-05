@@ -37,7 +37,7 @@ builder.Services.AddAuthorization();
 builder.Services.AddCors(options =>{
     options.AddPolicy("AllowSpecificOrigin",
     policy=>{
-        policy.WithOrigins("http://localhost:3000")
+        policy.WithOrigins("http://localhost:3000","https://nora-jade.vercel.app")
         .AllowAnyHeader()
         .AllowAnyMethod()
         .AllowCredentials();
